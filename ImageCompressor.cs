@@ -10,7 +10,7 @@ public class ImageCompressor
     private static ProtoRandom.ProtoRandom _random = new ProtoRandom.ProtoRandom(5);
     private static char[] _characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
-    public static void CompressImage(string inputPath, string outputPath)
+    public static void CompressImage(string inputPath, string outputPath, bool supportPngTransparentImages)
     {
         string rootDir = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, 1) + ":";
         string tempFolder = rootDir + "\\Temp";
@@ -26,7 +26,7 @@ public class ImageCompressor
         RunExecutable("pngquant.exe",
             $"\"{tempFolder + "\\" + image1Name + ".png"}\" --force --verbose --ordered --speed=1 --quality=50-90 %1");
 
-        if (!(Path.GetExtension(inputPath).ToLower().Equals(".png") && IsTransparentPngImage(inputPath)))
+        if (!(Path.GetExtension(inputPath).ToLower().Equals(".png") && IsTransparentPngImage(inputPath) && supportPngTransparentImages))
         {
             string outputExtension = Path.GetExtension(outputPath);
 

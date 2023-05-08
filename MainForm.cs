@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 public partial class MainForm : MetroForm
 {
@@ -34,9 +35,49 @@ public partial class MainForm : MetroForm
             }
         }
 
-        foreach (string file in Directory.GetFiles("inputs"))
+        if (!guna2CheckBox2.Checked)
         {
-            ImageCompressor.CompressImage(file, Path.GetFullPath("outputs") + "\\" + Path.GetFileName(file));
+            foreach (string file in Directory.GetFiles("inputs"))
+            {
+                try
+                {
+                    ImageCompressor.CompressImage(file,
+                        Path.GetFullPath("outputs") + "\\" + Path.GetFileName(file),
+                        guna2CheckBox1.Checked);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+        else
+        {
+            string[] files = Directory.GetFiles("inputs");
+            int filesCount = files.Length, completed = 0;
+
+            foreach (string file in files)
+            {
+                new Thread(() =>
+                {
+                    try
+                    {
+                        ImageCompressor.CompressImage(file,
+                            Path.GetFullPath("outputs") + "\\" + Path.GetFileName(file),
+                            guna2CheckBox1.Checked);
+                        completed++;
+                    }
+                    catch
+                    {
+                        completed++;
+                    }
+                }).Start();
+            }
+
+            while (filesCount != completed)
+            {
+                Thread.Sleep(10);
+            }
         }
 
         MessageBox.Show("Compression process has been completed successfully!", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
