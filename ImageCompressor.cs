@@ -63,6 +63,7 @@ public class ImageCompressor
             TryDeleteFile(tempFolder + "\\" + image1Name + ".png");
             TryDeleteFile(tempFolder + "\\" + image1Name + "-or8.png");
             TryDeleteFile(tempFolder + "\\" + image2Name + ".jpg");
+            TryDeleteFile(tempFolder + "\\" + image3Name + ".jpg");
             TryDeleteFile(tempFolder + "\\" + image4Name + ".jpg");
             TryDeleteFile(tempFolder + "\\" + image5Name + ".webp");
         }

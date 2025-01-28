@@ -10,6 +10,7 @@ public partial class MainForm : MetroForm
     {
         InitializeComponent();
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
+        CheckFolders();
     }
 
     private void guna2Button1_Click(object sender, System.EventArgs e)
@@ -76,7 +77,7 @@ public partial class MainForm : MetroForm
 
             while (filesCount != completed)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(1);
             }
         }
 
@@ -99,5 +100,22 @@ public partial class MainForm : MetroForm
         {
             Directory.CreateDirectory("outputs");
         }
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        Process.Start("https://github.com/GabryB03/IMGCompress/");
+    }
+
+    private void guna2Button2_Click(object sender, System.EventArgs e)
+    {
+        CheckFolders();
+        Process.Start(Path.GetFullPath("inputs"));
+    }
+
+    private void guna2Button3_Click(object sender, System.EventArgs e)
+    {
+        CheckFolders();
+        Process.Start(Path.GetFullPath("outputs"));
     }
 }
