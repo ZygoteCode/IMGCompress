@@ -30,10 +30,10 @@ public class ImageCompressor
         {
             string outputExtension = Path.GetExtension(outputPath);
 
-            if (outputExtension != ".jpg")
+            if (outputExtension != ".avif")
             {
                 outputPath = outputPath.Substring(0, outputPath.Length - outputExtension.Length);
-                outputPath += ".jpg";
+                outputPath += ".avif";
             }    
 
             string image2Name = GenerateRandomFileName();
@@ -49,26 +49,40 @@ public class ImageCompressor
             image.Save(tempFolder + "\\" + image3Name + ".jpg", encoder, encoderParameters);
             image.Dispose();
 
+            string image4Name = GenerateRandomFileName();
             RunExecutable("ffmpeg.exe",
-                $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image3Name + ".jpg"}\" -pred mixed \"{outputPath}\"");
+                $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image3Name + ".jpg"}\" -pred mixed \"{tempFolder + "\\" + image4Name + ".jpg"}\"");
+
+            string image5Name = GenerateRandomFileName();
+            RunExecutable("ffmpeg.exe",
+                $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image4Name + ".jpg"}\" \"{tempFolder + "\\" + image5Name + ".webp"}\"");
+
+            RunExecutable("ffmpeg.exe",
+                $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image5Name + ".webp"}\" \"{outputPath}\"");
 
             TryDeleteFile(tempFolder + "\\" + image1Name + ".png");
             TryDeleteFile(tempFolder + "\\" + image1Name + "-or8.png");
             TryDeleteFile(tempFolder + "\\" + image2Name + ".jpg");
-            TryDeleteFile(tempFolder + "\\" + image3Name + ".jpg");
+            TryDeleteFile(tempFolder + "\\" + image4Name + ".jpg");
+            TryDeleteFile(tempFolder + "\\" + image5Name + ".webp");
         }
         else
         {
-            string image2Name = GenerateRandomFileName();
+            string image2Name = GenerateRandomFileName(),
+                image3Name = GenerateRandomFileName();
 
             RunExecutable("ffmpeg.exe",
                 $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image1Name + "-or8.png"}\" -pred mixed \"{tempFolder + "\\" + image2Name + ".png"}\"");
 
-            File.Move(tempFolder + "\\" + image2Name + ".png", outputPath);
+            RunExecutable("ffmpeg.exe",
+               $"-threads {Environment.ProcessorCount} -i \"{tempFolder + "\\" + image2Name + ".png"}\" \"{tempFolder + "\\" + image3Name + ".webp"}\"");
+
+            File.Move(tempFolder + "\\" + image3Name + ".webp", outputPath);
 
             TryDeleteFile(tempFolder + "\\" + image1Name + ".png");
             TryDeleteFile(tempFolder + "\\" + image1Name + "-or8.png");
             TryDeleteFile(tempFolder + "\\" + image2Name + ".png");
+            TryDeleteFile(tempFolder + "\\" + image3Name + ".webp");
         }
     }
 

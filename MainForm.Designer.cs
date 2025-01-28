@@ -21,6 +21,7 @@
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2CheckBox1 = new Guna.UI2.WinForms.Guna2CheckBox();
             this.guna2CheckBox2 = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // guna2ControlBox1
@@ -115,6 +116,17 @@
             this.guna2CheckBox2.UncheckedState.BorderThickness = 0;
             this.guna2CheckBox2.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(147)))), ((int)(((byte)(103)))));
+            this.linkLabel1.Location = new System.Drawing.Point(20, 189);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(170, 15);
+            this.linkLabel1.TabIndex = 6;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Support the project on GitHub!";
+            // 
             // MainForm
             // 
             this.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(196)))), ((int)(((byte)(156)))));
@@ -123,7 +135,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(496, 200);
+            this.ClientSize = new System.Drawing.Size(496, 222);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.guna2CheckBox2);
             this.Controls.Add(this.guna2CheckBox1);
             this.Controls.Add(this.guna2Button1);
@@ -138,7 +151,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.State = MetroSuite.MetroForm.FormState.Custom;
             this.Style = MetroSuite.Design.Style.Dark;
-            this.Text = "IMGCompress";
+            this.Text = "IMGCompress | Made by https://github.com/GabryB03/";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,4 +163,5 @@
     private Guna.UI2.WinForms.Guna2Button guna2Button1;
     private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox1;
     private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox2;
+    private System.Windows.Forms.LinkLabel linkLabel1;
 }
