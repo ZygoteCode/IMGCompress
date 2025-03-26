@@ -192,7 +192,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.State = MetroSuite.MetroForm.FormState.Custom;
             this.Style = MetroSuite.Design.Style.Dark;
-            this.Text = "IMGCompress | Made by https://github.com/GabryB03/";
+            this.Text = "IMGCompress | Made by https://github.com/ZygoteCode/";
             this.ResumeLayout(false);
             this.PerformLayout();
 
