@@ -104,7 +104,7 @@ public partial class MainForm : MetroForm
 
     private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-        Process.Start("https://github.com/GabryB03/IMGCompress/");
+        Process.Start("https://github.com/ZygoteCode/IMGCompress/");
     }
 
     private void guna2Button2_Click(object sender, System.EventArgs e)
