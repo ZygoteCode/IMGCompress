@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\ZygoteCode\\desktop\\progetti\\imgcompress\\imagecompressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:imagecompressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\MainForm.cs",
+              "RelativeDocumentMoniker": "MainForm.cs",
+              "ToolTip": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\MainForm.cs",
+              "RelativeToolTip": "MainForm.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T21:46:52.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainForm.cs [Progettazione]",
+              "DocumentMoniker": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\MainForm.cs",
+              "RelativeDocumentMoniker": "MainForm.cs",
+              "ToolTip": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\MainForm.cs [Progettazione]",
+              "RelativeToolTip": "MainForm.cs [Progettazione]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T21:46:50.366Z",
+              "EditorCaption": " [Progettazione]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ImageCompressor.cs",
+              "DocumentMoniker": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\ImageCompressor.cs",
+              "RelativeDocumentMoniker": "ImageCompressor.cs",
+              "ToolTip": "C:\\Users\\ZygoteCode\\Desktop\\Progetti\\IMGCompress\\ImageCompressor.cs",
+              "RelativeToolTip": "ImageCompressor.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAgwEEAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T21:15:55.647Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
