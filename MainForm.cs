@@ -11,6 +11,8 @@ public partial class MainForm : MetroForm
         InitializeComponent();
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
         CheckFolders();
+        CheckForIllegalCrossThreadCalls = false;
+        guna2ComboBox1.SelectedIndex = 2;
     }
 
     private void guna2Button1_Click(object sender, System.EventArgs e)
@@ -38,13 +40,32 @@ public partial class MainForm : MetroForm
 
         if (!guna2CheckBox2.Checked)
         {
+            int index = guna2ComboBox1.SelectedIndex;
+            bool isChecked = guna2CheckBox1.Checked;
+            string path = Path.GetFullPath("outputs") + "\\";
+
             foreach (string file in Directory.GetFiles("inputs"))
             {
                 try
                 {
-                    ImageCompressor.CompressImage(file,
-                        Path.GetFullPath("outputs") + "\\" + Path.GetFileName(file),
-                        guna2CheckBox1.Checked);
+                    switch (index)
+                    {
+                        case 0:
+                            ImageCompressor.CompressImageLevel1(file,
+                                path + Path.GetFileName(file),
+                                isChecked);
+                            break;
+                        case 1:
+                            ImageCompressor.CompressImageLevel2(file,
+                                path + Path.GetFileName(file),
+                                isChecked);
+                            break;
+                        case 2:
+                            ImageCompressor.CompressImageLevel3(file,
+                                path + Path.GetFileName(file),
+                                isChecked);
+                            break;
+                    }
                 }
                 catch
                 {
@@ -56,6 +77,9 @@ public partial class MainForm : MetroForm
         {
             string[] files = Directory.GetFiles("inputs");
             int filesCount = files.Length, completed = 0;
+            int index = guna2ComboBox1.SelectedIndex;
+            bool isChecked = guna2CheckBox1.Checked;
+            string path = Path.GetFullPath("outputs") + "\\";
 
             foreach (string file in files)
             {
@@ -63,12 +87,26 @@ public partial class MainForm : MetroForm
                 {
                     try
                     {
-                        ImageCompressor.CompressImage(file,
-                            Path.GetFullPath("outputs") + "\\" + Path.GetFileName(file),
-                            guna2CheckBox1.Checked);
-                        completed++;
+                        switch (index)
+                        {
+                            case 0:
+                                ImageCompressor.CompressImageLevel1(file,
+                                    path + Path.GetFileName(file),
+                                    isChecked);
+                                break;
+                            case 1:
+                                ImageCompressor.CompressImageLevel2(file,
+                                    path + Path.GetFileName(file),
+                                    isChecked);
+                                break;
+                            case 2:
+                                ImageCompressor.CompressImageLevel3(file,
+                                    path + Path.GetFileName(file),
+                                    isChecked);
+                                break;
+                        }
                     }
-                    catch
+                    finally
                     {
                         completed++;
                     }

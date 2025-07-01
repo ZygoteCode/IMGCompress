@@ -24,6 +24,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
             this.SuspendLayout();
             // 
             // guna2ControlBox1
@@ -75,7 +76,7 @@
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(456, 45);
             this.guna2Button1.TabIndex = 3;
-            this.guna2Button1.Text = "Process your input images now";
+            this.guna2Button1.Text = "Process your input images now!";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // guna2CheckBox1
@@ -122,7 +123,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(147)))), ((int)(((byte)(103)))));
-            this.linkLabel1.Location = new System.Drawing.Point(21, 241);
+            this.linkLabel1.Location = new System.Drawing.Point(20, 291);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(170, 15);
             this.linkLabel1.TabIndex = 6;
@@ -166,6 +167,26 @@
             this.guna2Button3.Text = "Open output images\' folder";
             this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
             // 
+            // guna2ComboBox1
+            // 
+            this.guna2ComboBox1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2ComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.guna2ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guna2ComboBox1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.guna2ComboBox1.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(147)))), ((int)(((byte)(103)))));
+            this.guna2ComboBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(147)))), ((int)(((byte)(103)))));
+            this.guna2ComboBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2ComboBox1.ForeColor = System.Drawing.Color.White;
+            this.guna2ComboBox1.ItemHeight = 30;
+            this.guna2ComboBox1.Items.AddRange(new object[] {
+            "Compression level 1 (JPG)",
+            "Compression level 2 (WEBP)",
+            "Compression level 3 (AVIF)"});
+            this.guna2ComboBox1.Location = new System.Drawing.Point(23, 243);
+            this.guna2ComboBox1.Name = "guna2ComboBox1";
+            this.guna2ComboBox1.Size = new System.Drawing.Size(456, 36);
+            this.guna2ComboBox1.TabIndex = 9;
+            // 
             // MainForm
             // 
             this.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(196)))), ((int)(((byte)(156)))));
@@ -174,7 +195,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(496, 270);
+            this.ClientSize = new System.Drawing.Size(496, 327);
+            this.Controls.Add(this.guna2ComboBox1);
             this.Controls.Add(this.guna2Button3);
             this.Controls.Add(this.guna2Button2);
             this.Controls.Add(this.linkLabel1);
@@ -192,7 +214,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.State = MetroSuite.MetroForm.FormState.Custom;
             this.Style = MetroSuite.Design.Style.Dark;
-            this.Text = "IMGCompress | Made by https://github.com/ZygoteCode/";
+            this.Text = "IMGCompress V5 | Made by https://github.com/ZygoteCode/";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,4 +229,5 @@
     private System.Windows.Forms.LinkLabel linkLabel1;
     private Guna.UI2.WinForms.Guna2Button guna2Button2;
     private Guna.UI2.WinForms.Guna2Button guna2Button3;
+    private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
 }
