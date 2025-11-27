@@ -12,7 +12,7 @@ public partial class MainForm : MetroForm
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
         CheckFolders();
         CheckForIllegalCrossThreadCalls = false;
-        guna2ComboBox1.SelectedIndex = 2;
+        guna2ComboBox1.SelectedIndex = 3;
     }
 
     private void guna2Button1_Click(object sender, System.EventArgs e)
@@ -65,6 +65,11 @@ public partial class MainForm : MetroForm
                                 path + Path.GetFileName(file),
                                 isChecked);
                             break;
+                        case 3:
+                            ImageCompressor.CompressImageLevel4(file,
+                                path + Path.GetFileName(file),
+                                isChecked);
+                            break;
                     }
                 }
                 catch
@@ -101,6 +106,11 @@ public partial class MainForm : MetroForm
                                 break;
                             case 2:
                                 ImageCompressor.CompressImageLevel3(file,
+                                    path + Path.GetFileName(file),
+                                    isChecked);
+                                break;
+                            case 3:
+                                ImageCompressor.CompressImageLevel4(file,
                                     path + Path.GetFileName(file),
                                     isChecked);
                                 break;

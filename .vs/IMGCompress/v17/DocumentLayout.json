@@ -1,18 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\",
+  "WorkspaceRootPath": "C:\\Users\\nmjuk\\Desktop\\Computer\\GitHub Repositories\\IMGCompress\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\z\\desktop\\github repositories\\imgcompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\z\\desktop\\github repositories\\imgcompress\\imagecompressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:imagecompressor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\z\\desktop\\github repositories\\imgcompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\nmjuk\\desktop\\computer\\github repositories\\imgcompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|c:\\users\\nmjuk\\desktop\\computer\\github repositories\\imgcompress\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{466B4662-EB71-4D42-84CD-6DB2C4F0394D}|IMGCompress.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ImageCompressor.cs",
-              "DocumentMoniker": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\ImageCompressor.cs",
-              "RelativeDocumentMoniker": "ImageCompressor.cs",
-              "ToolTip": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\ImageCompressor.cs",
-              "RelativeToolTip": "ImageCompressor.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAowIkAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T20:40:09.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\MainForm.cs",
+              "Title": "MainForm.cs [Progettazione]",
+              "DocumentMoniker": "C:\\Users\\nmjuk\\Desktop\\Computer\\GitHub Repositories\\IMGCompress\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
-              "ToolTip": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\MainForm.cs",
-              "RelativeToolTip": "MainForm.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAowG4AAAAkAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\nmjuk\\Desktop\\Computer\\GitHub Repositories\\IMGCompress\\MainForm.cs [Progettazione]",
+              "RelativeToolTip": "MainForm.cs [Progettazione]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T20:16:55.015Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-27T07:35:23.488Z",
+              "EditorCaption": " [Progettazione]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainForm.cs [Progettazione]",
-              "DocumentMoniker": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\MainForm.cs",
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\nmjuk\\Desktop\\Computer\\GitHub Repositories\\IMGCompress\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
-              "ToolTip": "C:\\Users\\Z\\Desktop\\GitHub Repositories\\IMGCompress\\MainForm.cs [Progettazione]",
-              "RelativeToolTip": "MainForm.cs [Progettazione]",
+              "ToolTip": "C:\\Users\\nmjuk\\Desktop\\Computer\\GitHub Repositories\\IMGCompress\\MainForm.cs",
+              "RelativeToolTip": "MainForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T20:16:53.124Z",
-              "EditorCaption": " [Progettazione]"
+              "WhenOpened": "2025-11-27T07:24:02.003Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -181,7 +181,8 @@
             this.guna2ComboBox1.Items.AddRange(new object[] {
             "Compression level 1 (JPG)",
             "Compression level 2 (WEBP)",
-            "Compression level 3 (AVIF)"});
+            "Compression level 3 (AVIF)",
+            "Compression level 4 (JXL)"});
             this.guna2ComboBox1.Location = new System.Drawing.Point(23, 243);
             this.guna2ComboBox1.Name = "guna2ComboBox1";
             this.guna2ComboBox1.Size = new System.Drawing.Size(456, 36);
@@ -214,7 +215,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.State = MetroSuite.MetroForm.FormState.Custom;
             this.Style = MetroSuite.Design.Style.Dark;
-            this.Text = "IMGCompress V5 | Made by https://github.com/ZygoteCode/";
+            this.Text = "IMGCompress V6 | Made by https://github.com/ZygoteCode/";
             this.ResumeLayout(false);
             this.PerformLayout();
 
