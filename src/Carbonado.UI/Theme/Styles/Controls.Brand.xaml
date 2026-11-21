@@ -1,0 +1,606 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme"
+                    xmlns:c="clr-namespace:Carbonado.UI.Controls"
+                    mc:Ignorable="po">
+    <!--
+        Brand controls: PrismButton, GemProgressRing, CountUpText, RadialGauge, BeforeAfterViewer, DropZone,
+        ParticleField, NavRail/NavItem, StatCard, BarChart, DonutChart, ToastHost/Toast, ModalHost, Chip.
+        Drawn controls get their brushes here (tokens only); templated ones get their templates.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ===== Brand fills ===== -->
+    <!-- Press ripple: white core dispersing through ice into an iris fringe. -->
+    <RadialGradientBrush x:Key="Fill.Ripple" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Diamond50}" />
+        <GradientStop Offset="0.45" Color="{StaticResource C.Ice}" />
+        <GradientStop Offset="0.8" Color="{StaticResource C.Iris.A35}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </RadialGradientBrush>
+    <!-- Hairline accent with fading ends (top edge of stat cards). -->
+    <LinearGradientBrush x:Key="Fill.PrismaHairline" StartPoint="0,0.5" EndPoint="1,0.5" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Transparent}" />
+        <GradientStop Offset="0.2" Color="{StaticResource C.Aqua}" />
+        <GradientStop Offset="0.55" Color="{StaticResource C.Iris}" />
+        <GradientStop Offset="0.85" Color="{StaticResource C.Rose}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Fill.Bar" StartPoint="0.5,0" EndPoint="0.5,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Aqua}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Iris}" />
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="Fill.DropGlow" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Aqua.A15}" />
+        <GradientStop Offset="0.7" Color="{StaticResource C.Iris.A15}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </RadialGradientBrush>
+    <!-- Transparency checkerboard for the compare view. -->
+    <DrawingBrush x:Key="Fill.Checker" TileMode="Tile" Viewport="0,0,16,16" ViewportUnits="Absolute" po:Freeze="True">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="{StaticResource B.Obsidian850}" Geometry="M0,0 H16 V16 H0 Z" />
+                <GeometryDrawing Brush="{StaticResource B.Obsidian800}" Geometry="M0,0 H8 V8 H0 Z M8,8 H16 V16 H8 Z" />
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- ===== PrismButton ===== -->
+    <ControlTemplate x:Key="Template.PrismButton" TargetType="c:PrismButton">
+        <Grid x:Name="Root" RenderTransformOrigin="0.5,0.5"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="Press" />
+            </Grid.RenderTransform>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                        <VisualTransition To="Pressed" GeneratedDuration="{StaticResource Duration.Micro}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Chrome" Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)" To="0.8" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Sheen" Storyboard.TargetProperty="(UIElement.OpacityMask).(Brush.RelativeTransform).(TranslateTransform.X)"
+                                             From="-1" To="1" Duration="0:0:0.6" EasingFunction="{StaticResource Ease.Glide}" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Shade" Storyboard.TargetProperty="Opacity" To="0.25" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleX" To="0.97" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleY" To="0.97" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Chrome" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Bevel" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Inert" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.TextDisabled}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Inert" Opacity="0" Background="{StaticResource B.White.A04}" BorderBrush="{StaticResource B.White.A08}"
+                    BorderThickness="1" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Border x:Name="Chrome" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="22" ShadowDepth="0" Opacity="0.5" Color="{StaticResource C.Iris}" />
+                </Border.Effect>
+            </Border>
+            <Border x:Name="Bevel" Opacity="0.5" Background="{StaticResource Fill.Bevel}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Border x:Name="Hover" Opacity="0" Background="{StaticResource B.White.A12}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Border x:Name="Sheen" Background="{StaticResource B.White.A40}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" IsHitTestVisible="False">
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.6">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TranslateTransform X="-1" />
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Offset="0.35" Color="{StaticResource C.Transparent}" />
+                        <GradientStop Offset="0.5" Color="{StaticResource C.Diamond50}" />
+                        <GradientStop Offset="0.65" Color="{StaticResource C.Transparent}" />
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            <!-- The ripple sits above the press shade so the bloom stays bright. -->
+            <Border x:Name="Shade" Opacity="0" Background="{StaticResource B.Black.A40}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Canvas x:Name="PART_RippleHost" IsHitTestVisible="False">
+                <Ellipse x:Name="PART_Ripple" Fill="{StaticResource Fill.Ripple}" Opacity="0" />
+            </Canvas>
+            <StackPanel x:Name="Content" Orientation="Horizontal" Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        TextElement.Foreground="{TemplateBinding Foreground}">
+                <Grid x:Name="Glyph" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center">
+                    <c:IconPresenter x:Name="Icon" Icon="{TemplateBinding Icon}" StrokeThickness="1.8" />
+                    <Path x:Name="PART_Spinner" Visibility="Collapsed" Data="M9,2 A7,7 0 1 1 2,9" Stroke="{TemplateBinding Foreground}"
+                          StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                </Grid>
+                <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IsBusy" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Glyph" Property="Visibility" Value="Collapsed" />
+            </MultiTrigger>
+            <Trigger Property="IsBusy" Value="True">
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="PART_Spinner" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Content" Property="Opacity" Value="0.8" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="c:PrismButton" BasedOn="{StaticResource Button.Base}">
+        <Setter Property="Foreground" Value="{StaticResource B.Obsidian950}" />
+        <Setter Property="Background" Value="{StaticResource B.Prisma}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.BodyLarge}" />
+        <Setter Property="Padding" Value="22,0" />
+        <Setter Property="MinHeight" Value="42" />
+        <Setter Property="theme:Chrome.CornerRadius" Value="{StaticResource Radius.Medium}" />
+        <Setter Property="Template" Value="{StaticResource Template.PrismButton}" />
+    </Style>
+
+    <!-- ===== Drawn metrics ===== -->
+    <Style TargetType="c:GemProgressRing">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextTertiary}" />
+        <Setter Property="TrackBrush" Value="{StaticResource B.White.A08}" />
+        <Setter Property="ProgressBrush" Value="{StaticResource B.Prisma}" />
+        <Setter Property="SuccessBrush" Value="{StaticResource B.Emerald}" />
+        <Setter Property="KeptBrush" Value="{StaticResource B.Topaz}" />
+        <Setter Property="FailedBrush" Value="{StaticResource B.Ruby}" />
+    </Style>
+
+    <Style TargetType="c:CountUpText">
+        <Setter Property="FontFamily" Value="{StaticResource Font.Display}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+    </Style>
+
+    <Style TargetType="c:RadialGauge">
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Height" Value="180" />
+        <Setter Property="FontFamily" Value="{StaticResource Font.Display}" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="TrackBrush" Value="{StaticResource B.White.A08}" />
+        <Setter Property="ValueBrush" Value="{StaticResource B.Prisma}" />
+        <Setter Property="TickBrush" Value="{StaticResource B.White.A12}" />
+        <Setter Property="SparkBrush" Value="{StaticResource Fill.Spark}" />
+        <Setter Property="CaptionBrush" Value="{StaticResource B.TextSecondary}" />
+    </Style>
+
+    <Style TargetType="c:BarChart">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="BarBrush" Value="{StaticResource Fill.Bar}" />
+        <Setter Property="GridBrush" Value="{StaticResource B.White.A04}" />
+    </Style>
+
+    <Style TargetType="c:DonutChart">
+        <Setter Property="TrackBrush" Value="{StaticResource B.White.A04}" />
+    </Style>
+
+    <Style TargetType="c:ParticleField">
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Palette">
+            <Setter.Value>
+                <x:Array Type="{x:Type Brush}">
+                    <StaticResource ResourceKey="B.Diamond50" />
+                    <StaticResource ResourceKey="B.Ice" />
+                    <StaticResource ResourceKey="B.Aqua" />
+                    <StaticResource ResourceKey="B.Iris" />
+                    <StaticResource ResourceKey="B.Rose" />
+                </x:Array>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== BeforeAfterViewer ===== -->
+    <Style TargetType="c:BeforeAfterViewer">
+        <Setter Property="Background" Value="{StaticResource B.Obsidian950}" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="CheckerBrush" Value="{StaticResource Fill.Checker}" />
+        <Setter Property="DividerBrush" Value="{StaticResource B.Diamond50}" />
+        <Setter Property="KnobBrush" Value="{StaticResource B.Obsidian800}" />
+        <Setter Property="LabelBackground" Value="{StaticResource B.Overlay}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource Focus.Prisma.Inset}" />
+    </Style>
+
+    <!-- ===== DropZone ===== -->
+    <Style TargetType="c:DropZone">
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Padding" Value="32" />
+        <Setter Property="MinHeight" Value="160" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:DropZone">
+                    <Grid x:Name="Root" Background="{StaticResource B.Transparent}"
+                          VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="DragStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Idle" />
+                                <VisualState x:Name="DragOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Glow" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Edge" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="EdgeLit" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Lift" Storyboard.TargetProperty="ScaleX" To="1.02" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Lift" Storyboard.TargetProperty="ScaleY" To="1.02" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="EdgeLit" Storyboard.TargetProperty="StrokeDashOffset"
+                                                         From="0" To="-8" Duration="0:0:0.6" RepeatBehavior="Forever" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="Glow" Opacity="0" CornerRadius="{StaticResource Radius.Large}" Background="{StaticResource Fill.DropGlow}" />
+                        <Rectangle x:Name="Edge" RadiusX="16" RadiusY="16" Fill="{StaticResource B.White.A04}" Stroke="{StaticResource B.White.A20}"
+                                   StrokeThickness="1.5" StrokeDashArray="4 4" SnapsToDevicePixels="True" />
+                        <Rectangle x:Name="EdgeLit" Opacity="0" RadiusX="16" RadiusY="16" Stroke="{StaticResource B.Prisma}"
+                                   StrokeThickness="1.5" StrokeDashArray="4 4" />
+                        <ContentPresenter Margin="{TemplateBinding Padding}" RenderTransformOrigin="0.5,0.5"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentPresenter.RenderTransform>
+                                <ScaleTransform x:Name="Lift" />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== NavRail / NavItem ===== -->
+    <Style TargetType="c:NavRail">
+        <Setter Property="Width" Value="76" />
+        <Setter Property="Background" Value="{StaticResource B.Transparent}" />
+        <Setter Property="BorderBrush" Value="{StaticResource B.White.A08}" />
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Padding" Value="0,8" />
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Cycle" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:NavRail">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <ItemsPresenter />
+                            <Rectangle x:Name="PART_Indicator" Width="3" Height="22" RadiusX="1.5" RadiusY="1.5"
+                                       HorizontalAlignment="Left" VerticalAlignment="Top" Fill="{StaticResource Fill.PrismaVertical}"
+                                       IsHitTestVisible="False" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="c:NavItem">
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="Height" Value="62" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource Focus.Prisma.Inset}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:NavItem">
+                    <Grid Background="{StaticResource B.Transparent}"
+                          VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Well" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Stack" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.Text}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Stack" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Chosen" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedUnfocused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Chosen" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <StackPanel x:Name="Stack" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}">
+                            <Grid Width="48" Height="32" HorizontalAlignment="Center">
+                                <Border x:Name="Well" Opacity="0" CornerRadius="{StaticResource Radius.Medium}" Background="{StaticResource B.White.A04}" />
+                                <Border x:Name="Chosen" Opacity="0" CornerRadius="{StaticResource Radius.Medium}" Background="{StaticResource B.Iris.A15}" />
+                                <c:IconPresenter x:Name="Icon" Icon="{TemplateBinding Icon}" Width="20" Height="20" />
+                            </Grid>
+                            <TextBlock Text="{TemplateBinding Label}" Margin="0,4,0,0" HorizontalAlignment="Center"
+                                       FontSize="{StaticResource FontSize.Caption}" FontWeight="Medium" />
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Stack" Property="TextElement.Foreground" Value="{StaticResource B.Text}" />
+                            <Setter TargetName="Icon" Property="Foreground" Value="{StaticResource B.Prisma}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== StatCard ===== -->
+    <Style TargetType="c:StatCard">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="Padding" Value="20,18,20,20" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:StatCard">
+                    <Grid>
+                        <Border Background="{StaticResource Fill.Card}" BorderBrush="{StaticResource B.EdgeLight}" BorderThickness="1"
+                                CornerRadius="{StaticResource Radius.Large}" SnapsToDevicePixels="True" />
+                        <Rectangle Height="1" Margin="22,0" VerticalAlignment="Top" Fill="{StaticResource Fill.PrismaHairline}" Opacity="0.8" />
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <Grid x:Name="IconChip" Width="28" Height="28" Margin="0,0,10,0">
+                                    <Border CornerRadius="8" Background="{StaticResource B.Iris.A15}" />
+                                    <c:IconPresenter Icon="{TemplateBinding Icon}" Width="16" Height="16" Foreground="{StaticResource B.Ice}" />
+                                </Grid>
+                                <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" FontSize="{StaticResource FontSize.Caption}"
+                                           FontWeight="SemiBold" Foreground="{StaticResource B.TextSecondary}" />
+                            </StackPanel>
+                            <ContentPresenter Grid.Row="1" Margin="0,14,0,0" Content="{TemplateBinding Value}"
+                                              TextElement.FontFamily="{StaticResource Font.Display}" TextElement.FontSize="32"
+                                              TextElement.FontWeight="SemiBold" TextElement.Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="CaptionText" Grid.Row="2" Margin="0,4,0,0" Text="{TemplateBinding Caption}"
+                                       Foreground="{StaticResource B.TextSecondary}" TextWrapping="Wrap" />
+                            <ContentPresenter Grid.Row="3" Margin="0,14,0,0" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="IconChip" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Caption" Value="{x:Null}">
+                            <Setter TargetName="CaptionText" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Toasts ===== -->
+    <Style TargetType="c:ToastHost">
+        <Setter Property="Width" Value="360" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel VerticalAlignment="Bottom" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="c:Toast">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:Toast">
+                    <Grid>
+                        <Border Background="{StaticResource B.Raised}" CornerRadius="{StaticResource Radius.Medium}" Effect="{StaticResource Shadow.Menu}" />
+                        <Border BorderBrush="{StaticResource Stroke.Hairline}" BorderThickness="1" CornerRadius="{StaticResource Radius.Medium}" Padding="14,12,8,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Width="30" Height="30" VerticalAlignment="Top">
+                                    <Ellipse x:Name="Halo" Fill="{StaticResource B.Aqua.A15}" />
+                                    <c:IconPresenter x:Name="KindIcon" Icon="{StaticResource Icon.Info}" Width="18" Height="18" Foreground="{StaticResource B.Aqua}" />
+                                </Grid>
+                                <StackPanel Grid.Column="1" Margin="12,1,8,0">
+                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="SemiBold" Foreground="{StaticResource B.Text}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{TemplateBinding Message}" Margin="0,3,0,0" Foreground="{StaticResource B.TextSecondary}" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <Button Grid.Column="2" Style="{StaticResource Button.Icon}" Width="28" Height="28" VerticalAlignment="Top"
+                                        Command="{x:Static c:Toast.CloseCommand}">
+                                    <c:IconPresenter Icon="{StaticResource Icon.Close}" Width="14" Height="14" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Kind" Value="Success">
+                            <Setter TargetName="Halo" Property="Fill" Value="{StaticResource B.Emerald.A15}" />
+                            <Setter TargetName="KindIcon" Property="Icon" Value="{StaticResource Icon.Success}" />
+                            <Setter TargetName="KindIcon" Property="Foreground" Value="{StaticResource B.Emerald}" />
+                        </Trigger>
+                        <Trigger Property="Kind" Value="Warning">
+                            <Setter TargetName="Halo" Property="Fill" Value="{StaticResource B.Topaz.A15}" />
+                            <Setter TargetName="KindIcon" Property="Icon" Value="{StaticResource Icon.Warning}" />
+                            <Setter TargetName="KindIcon" Property="Foreground" Value="{StaticResource B.Topaz}" />
+                        </Trigger>
+                        <Trigger Property="Kind" Value="Error">
+                            <Setter TargetName="Halo" Property="Fill" Value="{StaticResource B.Ruby.A15}" />
+                            <Setter TargetName="KindIcon" Property="Icon" Value="{StaticResource Icon.Error}" />
+                            <Setter TargetName="KindIcon" Property="Foreground" Value="{StaticResource B.Ruby}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== ModalHost ===== -->
+    <Style TargetType="c:ModalHost">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:ModalHost">
+                    <Grid>
+                        <ContentPresenter />
+                        <Border x:Name="PART_Scrim" Background="{StaticResource B.Overlay}" Visibility="Collapsed" />
+                        <Grid x:Name="PART_Dialog" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              MinWidth="360" MaxWidth="560" Margin="32"
+                              KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle">
+                            <!-- The shadow sits on its own layer so the dialog text keeps ClearType. -->
+                            <Border Background="{StaticResource Fill.Card}" CornerRadius="{StaticResource Radius.Large}" Effect="{StaticResource Shadow.Popup}" />
+                            <Border BorderBrush="{StaticResource B.EdgeLight}" BorderThickness="1" CornerRadius="{StaticResource Radius.Large}"
+                                    Padding="{StaticResource Space.XL}" TextElement.Foreground="{StaticResource B.Text}">
+                                <ContentPresenter Content="{TemplateBinding Dialog}" />
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Chip ===== -->
+    <Style TargetType="c:Chip" BasedOn="{StaticResource Button.Base}">
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="Background" Value="{StaticResource B.White.A04}" />
+        <Setter Property="BorderBrush" Value="{StaticResource B.White.A08}" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="Padding" Value="14,0,10,0" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource Focus.Prisma.Pill}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:Chip">
+                    <Grid RenderTransformOrigin="0.5,0.5" VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="Press" />
+                        </Grid.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Label" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.Text}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleX" To="0.97" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleY" To="0.97" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Chrome" Storyboard.TargetProperty="Opacity" To="0.45" Duration="0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Label" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.TextDisabled}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Selected" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="16" />
+                        <Border x:Name="Hover" Opacity="0" Background="{StaticResource B.White.A04}" BorderBrush="{StaticResource B.White.A12}"
+                                BorderThickness="1" CornerRadius="16" />
+                        <Border x:Name="Selected" Opacity="0" Background="{StaticResource B.Iris.A15}" BorderBrush="{StaticResource B.Prisma}"
+                                BorderThickness="1" CornerRadius="16" />
+                        <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ContentPresenter x:Name="Label" VerticalAlignment="Center" RecognizesAccessKey="True"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                            <Border x:Name="BadgeChip" Margin="8,0,0,0" Padding="6,1" CornerRadius="8" Background="{StaticResource B.White.A08}"
+                                    VerticalAlignment="Center">
+                                <TextBlock x:Name="BadgeText" Text="{TemplateBinding Badge}" FontSize="10" FontWeight="SemiBold"
+                                           Foreground="{StaticResource B.TextSecondary}" />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Badge" Value="{x:Null}">
+                            <Setter TargetName="BadgeChip" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Label" Property="TextElement.Foreground" Value="{StaticResource B.Text}" />
+                            <Setter TargetName="BadgeChip" Property="Background" Value="{StaticResource B.Prisma}" />
+                            <Setter TargetName="BadgeText" Property="Foreground" Value="{StaticResource B.Obsidian950}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

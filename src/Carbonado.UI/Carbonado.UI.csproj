@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Brand theme, controls, cinematics, effects and transitions. Independent from Carbonado.Core. -->
+  <PropertyGroup>
+    <RootNamespace>Carbonado.UI</RootNamespace>
+    <AssemblyName>Carbonado.UI</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\*.ttf" />
+    <Resource Include="Effects\*.ps" />
+    <None Include="Effects\*.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Carbonado.UI.Tests" />
+  </ItemGroup>
+</Project>

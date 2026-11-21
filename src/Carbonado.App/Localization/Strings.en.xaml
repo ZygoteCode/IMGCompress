@@ -1,0 +1,340 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <!-- Carbonado — English -->
+
+    <!-- App & shell -->
+    <sys:String x:Key="L.App.Name">Carbonado</sys:String>
+    <sys:String x:Key="L.App.Tagline">Infinite pressure. Flawless brilliance.</sys:String>
+    <sys:String x:Key="L.Window.Minimize">Minimize</sys:String>
+    <sys:String x:Key="L.Window.Maximize">Maximize</sys:String>
+    <sys:String x:Key="L.Window.Restore">Restore</sys:String>
+    <sys:String x:Key="L.Window.Close">Close</sys:String>
+    <sys:String x:Key="L.Palette.Open">Commands (Ctrl+K)</sys:String>
+    <sys:String x:Key="L.Palette.Hint">Search a command, a page, a profile…</sys:String>
+    <sys:String x:Key="L.Palette.Empty">No matching command.</sys:String>
+    <sys:String x:Key="L.Intro.Tagline">Infinite pressure. Flawless brilliance.</sys:String>
+    <sys:String x:Key="L.Intro.Skip">Esc to skip</sys:String>
+    <sys:String x:Key="L.Shell.ContextMenu">Compress with Carbonado</sys:String>
+
+    <!-- Navigation -->
+    <sys:String x:Key="L.Nav.Forge">Forge</sys:String>
+    <sys:String x:Key="L.Nav.Compare">Compare</sys:String>
+    <sys:String x:Key="L.Nav.Profiles">Profiles</sys:String>
+    <sys:String x:Key="L.Nav.Archive">Archive</sys:String>
+    <sys:String x:Key="L.Nav.Engines">Engines</sys:String>
+    <sys:String x:Key="L.Nav.Settings">Settings</sys:String>
+    <sys:String x:Key="L.Nav.About">About</sys:String>
+
+    <!-- Common -->
+    <sys:String x:Key="L.Common.OK">OK</sys:String>
+    <sys:String x:Key="L.Common.Cancel">Cancel</sys:String>
+    <sys:String x:Key="L.Common.Close">Close</sys:String>
+    <sys:String x:Key="L.Common.Delete">Delete</sys:String>
+    <sys:String x:Key="L.Common.Keep">Keep</sys:String>
+    <sys:String x:Key="L.Common.CancelAndClear">Cancel and clear</sys:String>
+    <sys:String x:Key="L.Common.Browse">Browse…</sys:String>
+    <sys:String x:Key="L.Common.Open">Open</sys:String>
+
+    <!-- Forge -->
+    <sys:String x:Key="L.Forge.Title">Forge</sys:String>
+    <sys:String x:Key="L.Forge.Subtitle">Drop your images, choose the clarity, press Compress.</sys:String>
+    <sys:String x:Key="L.Forge.Drop.Title">Drop images or folders here</sys:String>
+    <sys:String x:Key="L.Forge.Drop.Hint">PNG, JPEG, WebP, AVIF, HEIC, JPEG XL, GIF, TIFF, BMP… whole folders too.</sys:String>
+    <sys:String x:Key="L.Forge.Drop.Release">Release to add</sys:String>
+    <sys:String x:Key="L.Forge.AddFiles">Add files</sys:String>
+    <sys:String x:Key="L.Forge.AddFolder">Add folder</sys:String>
+    <sys:String x:Key="L.Forge.Paste">Paste</sys:String>
+    <sys:String x:Key="L.Toast.ClipboardEmpty">The clipboard holds no images or image files.</sys:String>
+    <sys:String x:Key="L.Forge.Profile">Clarity</sys:String>
+    <sys:String x:Key="L.Forge.Format">Format</sys:String>
+    <sys:String x:Key="L.Forge.Effort">Effort</sys:String>
+    <sys:String x:Key="L.Forge.Destination">Destination</sys:String>
+    <sys:String x:Key="L.Forge.Destination.Subfolder">“{0}” folder next to the originals</sys:String>
+    <sys:String x:Key="L.Forge.Destination.Same">Next to the originals</sys:String>
+    <sys:String x:Key="L.Forge.Destination.Change">Change</sys:String>
+    <sys:String x:Key="L.Forge.Compress">Compress</sys:String>
+    <sys:String x:Key="L.Forge.Pause">Pause</sys:String>
+    <sys:String x:Key="L.Forge.Resume">Resume</sys:String>
+    <sys:String x:Key="L.Forge.Cancel">Cancel</sys:String>
+    <sys:String x:Key="L.Forge.Clear">Clear</sys:String>
+    <sys:String x:Key="L.Forge.ClearFinished">Remove finished</sys:String>
+    <sys:String x:Key="L.Forge.Col.File">Image</sys:String>
+    <sys:String x:Key="L.Forge.Col.Size">Weight</sys:String>
+    <sys:String x:Key="L.Forge.Col.Result">Result</sys:String>
+    <sys:String x:Key="L.Forge.Col.Quality">Quality</sys:String>
+    <sys:String x:Key="L.Forge.Col.Status">Status</sys:String>
+    <sys:String x:Key="L.Gauge.Saved">SAVED</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Title">Savings</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Original">Original</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Compressed">Compressed</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Saved">Saved</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Files">{0} of {1} images</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Failed">{0} errors</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Kept">{0} already optimal</sys:String>
+    <sys:String x:Key="L.Forge.Summary.Idle">Ready to forge.</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Started">Forging {0} images.</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Paused">Paused.</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Resumed">Resumed.</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Cancelling">Cancelling…</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Done">{0}: −{1}</sys:String>
+    <sys:String x:Key="L.Forge.Activity.Finished">Completed {0} of {1} · {2} saved.</sys:String>
+    <sys:String x:Key="L.Forge.ClearRunning.Title">Clear the queue?</sys:String>
+    <sys:String x:Key="L.Forge.ClearRunning.Message">Compression is running: active jobs will be cancelled. Originals are never touched.</sys:String>
+    <sys:String x:Key="L.Effort.Profile">From profile</sys:String>
+    <sys:String x:Key="L.Effort.Fast">Fast</sys:String>
+    <sys:String x:Key="L.Effort.Balanced">Balanced</sys:String>
+    <sys:String x:Key="L.Effort.Max">Maximum</sys:String>
+    <sys:String x:Key="L.Effort.Insane">Extreme</sys:String>
+
+    <!-- Queue item -->
+    <sys:String x:Key="L.Item.Compare">Compare</sys:String>
+    <sys:String x:Key="L.Item.OpenFolder">Show in folder</sys:String>
+    <sys:String x:Key="L.Item.Retry">Retry</sys:String>
+    <sys:String x:Key="L.Item.Remove">Remove from queue</sys:String>
+    <sys:String x:Key="L.Status.Pending">Waiting</sys:String>
+    <sys:String x:Key="L.Status.Working">Working</sys:String>
+    <sys:String x:Key="L.Status.Done">Compressed</sys:String>
+    <sys:String x:Key="L.Status.Kept">Already optimal: original kept</sys:String>
+    <sys:String x:Key="L.Status.KeptShort">Optimal</sys:String>
+    <sys:String x:Key="L.Status.Failed">Error</sys:String>
+    <sys:String x:Key="L.Status.Cancelled">Cancelled</sys:String>
+    <sys:String x:Key="L.Verify.PixelExact">Pixel-exact</sys:String>
+    <sys:String x:Key="L.Verify.BitExact">Bit-exact</sys:String>
+    <sys:String x:Key="L.Stage.Queued">Queued</sys:String>
+    <sys:String x:Key="L.Stage.Probing">Reading file</sys:String>
+    <sys:String x:Key="L.Stage.Decoding">Decoding</sys:String>
+    <sys:String x:Key="L.Stage.Analyzing">Analyzing content</sys:String>
+    <sys:String x:Key="L.Stage.Preparing">Preparing</sys:String>
+    <sys:String x:Key="L.Stage.Encoding">Encoding</sys:String>
+    <sys:String x:Key="L.Stage.Verifying">Verifying</sys:String>
+    <sys:String x:Key="L.Stage.Writing">Writing</sys:String>
+    <sys:String x:Key="L.Stage.Done">Done</sys:String>
+    <sys:String x:Key="L.Stage.Candidate">Trying {0}</sys:String>
+    <sys:String x:Key="L.Stage.CandidateScored">{0} → {1}</sys:String>
+
+    <!-- Grades -->
+    <sys:String x:Key="L.Grade.FL">Absolute purity: identical pixels, verified after encoding.</sys:String>
+    <sys:String x:Key="L.Grade.VVS">Invisible: indistinguishable even when flipping between images at 1:1.</sys:String>
+    <sys:String x:Key="L.Grade.VS">Excellent: no visible difference side by side at 1:1.</sys:String>
+    <sys:String x:Key="L.Grade.SI">Balanced: artifacts only visible when hunting for them.</sys:String>
+    <sys:String x:Key="L.Grade.I">Maximum reduction: good quality, tiny files.</sys:String>
+
+    <!-- Compare -->
+    <sys:String x:Key="L.Compare.Title">Compare</sys:String>
+    <sys:String x:Key="L.Compare.Subtitle">Original and result, pixel for pixel.</sys:String>
+    <sys:String x:Key="L.Compare.Pick">Image</sys:String>
+    <sys:String x:Key="L.Compare.Mode.Split">Split</sys:String>
+    <sys:String x:Key="L.Compare.Mode.SideBySide">Side by side</sys:String>
+    <sys:String x:Key="L.Compare.Mode.Flicker">Flicker</sys:String>
+    <sys:String x:Key="L.Compare.Mode.Heatmap">Error map</sys:String>
+    <sys:String x:Key="L.Compare.Fit">Fit</sys:String>
+    <sys:String x:Key="L.Compare.Actual">100%</sys:String>
+    <sys:String x:Key="L.Compare.Original">Original</sys:String>
+    <sys:String x:Key="L.Compare.Result">Result</sys:String>
+    <sys:String x:Key="L.Compare.Score">SSIMULACRA2</sys:String>
+    <sys:String x:Key="L.Compare.Loading">Decoding…</sys:String>
+    <sys:String x:Key="L.Compare.Empty">Compress an image, then compare it here.</sys:String>
+    <sys:String x:Key="L.Compare.Error">Cannot open the image: {0}</sys:String>
+    <sys:String x:Key="L.Compare.Encoder">Encoder</sys:String>
+    <sys:String x:Key="L.Compare.Verification">Verification</sys:String>
+
+    <!-- Profiles -->
+    <sys:String x:Key="L.Profiles.Title">Profiles</sys:String>
+    <sys:String x:Key="L.Profiles.Subtitle">Compression recipes: clarity, formats, effort.</sys:String>
+    <sys:String x:Key="L.Profiles.BuiltIn">Built-in</sys:String>
+    <sys:String x:Key="L.Profiles.Custom">Custom</sys:String>
+    <sys:String x:Key="L.Profiles.Active">Active</sys:String>
+    <sys:String x:Key="L.Profiles.Name">Name</sys:String>
+    <sys:String x:Key="L.Profiles.Mode">Mode</sys:String>
+    <sys:String x:Key="L.Profiles.Target">Target quality</sys:String>
+    <sys:String x:Key="L.Profiles.TargetSize">Maximum size (KB)</sys:String>
+    <sys:String x:Key="L.Profiles.Formats">Allowed formats</sys:String>
+    <sys:String x:Key="L.Profiles.Strategy">Strategy</sys:String>
+    <sys:String x:Key="L.Profiles.Effort">Effort</sys:String>
+    <sys:String x:Key="L.Profiles.Metadata">Metadata</sys:String>
+    <sys:String x:Key="L.Profiles.Resize">Resize</sys:String>
+    <sys:String x:Key="L.Profiles.MaxWidth">Max width</sys:String>
+    <sys:String x:Key="L.Profiles.MaxHeight">Max height</sys:String>
+    <sys:String x:Key="L.Profiles.NeverLarger">Never larger than the original</sys:String>
+    <sys:String x:Key="L.Profiles.JpegTranscode">Reversible JPEG → JPEG XL</sys:String>
+    <sys:String x:Key="L.Profiles.CleanInvisible">Optimize invisible pixels</sys:String>
+    <sys:String x:Key="L.Profiles.Duplicate">Duplicate</sys:String>
+    <sys:String x:Key="L.Profiles.Save">Save</sys:String>
+    <sys:String x:Key="L.Profiles.Delete">Delete</sys:String>
+    <sys:String x:Key="L.Profiles.SetActive">Use this profile</sys:String>
+    <sys:String x:Key="L.Profiles.ReadOnly">Built-in profiles are read-only: duplicate one to edit it.</sys:String>
+    <sys:String x:Key="L.Profiles.CopyOf">{0} (copy)</sys:String>
+    <sys:String x:Key="L.Profiles.Delete.Title">Delete the profile?</sys:String>
+    <sys:String x:Key="L.Profiles.Delete.Message">“{0}” will be deleted permanently.</sys:String>
+    <sys:String x:Key="L.Profiles.Error.Name">Give the profile a name.</sys:String>
+    <sys:String x:Key="L.Profiles.Error.Formats">Choose at least one format.</sys:String>
+    <sys:String x:Key="L.Mode.TargetScore">Perceptual quality</sys:String>
+    <sys:String x:Key="L.Mode.Lossless">Lossless</sys:String>
+    <sys:String x:Key="L.Mode.TargetSize">Maximum size</sys:String>
+    <sys:String x:Key="L.Strategy.Auto">Smallest wins</sys:String>
+    <sys:String x:Key="L.Strategy.KeepSource">Same format</sys:String>
+    <sys:String x:Key="L.Strategy.Fixed">First format</sys:String>
+    <sys:String x:Key="L.Metadata.StripAll">Strip everything</sys:String>
+    <sys:String x:Key="L.Metadata.KeepColorProfile">Color profile only</sys:String>
+    <sys:String x:Key="L.Metadata.KeepAllButGps">All but GPS</sys:String>
+    <sys:String x:Key="L.Metadata.KeepAll">Keep everything</sys:String>
+
+    <!-- Archive -->
+    <sys:String x:Key="L.Archive.Title">Archive</sys:String>
+    <sys:String x:Key="L.Archive.Subtitle">Everything Carbonado has forged.</sys:String>
+    <sys:String x:Key="L.Archive.Files">Images</sys:String>
+    <sys:String x:Key="L.Archive.Saved">Space saved</sys:String>
+    <sys:String x:Key="L.Archive.Ratio">Average reduction</sys:String>
+    <sys:String x:Key="L.Archive.Daily">Savings over the last 14 days</sys:String>
+    <sys:String x:Key="L.Archive.Formats">Formats produced</sys:String>
+    <sys:String x:Key="L.Archive.Recent">Recent</sys:String>
+    <sys:String x:Key="L.Archive.Empty">No compressions yet. The first one is just a drag away.</sys:String>
+    <sys:String x:Key="L.Archive.Clear">Clear history</sys:String>
+    <sys:String x:Key="L.Archive.Clear.Title">Clear the history?</sys:String>
+    <sys:String x:Key="L.Archive.Clear.Message">Statistics and history will be reset. Compressed files are not touched.</sys:String>
+
+    <!-- Engines -->
+    <sys:String x:Key="L.Engines.Title">Engines</sys:String>
+    <sys:String x:Key="L.Engines.Subtitle">The official encoders that cut the diamonds, each one verified.</sys:String>
+    <sys:String x:Key="L.Engines.Verified">Verified</sys:String>
+    <sys:String x:Key="L.Engines.Unknown">Unverified</sys:String>
+    <sys:String x:Key="L.Engines.Mismatch">Modified</sys:String>
+    <sys:String x:Key="L.Engines.Missing">Missing</sys:String>
+    <sys:String x:Key="L.Engines.Rescan">Rescan</sys:String>
+    <sys:String x:Key="L.Engines.OpenFolder">Open tools folder</sys:String>
+    <sys:String x:Key="L.Engines.Formats">Available formats</sys:String>
+    <sys:String x:Key="L.Engines.Scanning">Verifying encoders…</sys:String>
+    <sys:String x:Key="L.Engines.Role.Cjxl">JPEG XL encoder (also reversible JPEG → JXL)</sys:String>
+    <sys:String x:Key="L.Engines.Role.Djxl">JPEG XL decoder and JPEG reconstruction</sys:String>
+    <sys:String x:Key="L.Engines.Role.Jxlinfo">JPEG XL inspection</sys:String>
+    <sys:String x:Key="L.Engines.Role.Ssimulacra2">SSIMULACRA2 reference metric</sys:String>
+    <sys:String x:Key="L.Engines.Role.Avifenc">AVIF encoder (aom)</sys:String>
+    <sys:String x:Key="L.Engines.Role.Avifdec">AVIF decoder (dav1d)</sys:String>
+    <sys:String x:Key="L.Engines.Role.Cwebp">WebP encoder</sys:String>
+    <sys:String x:Key="L.Engines.Role.Dwebp">WebP decoder</sys:String>
+    <sys:String x:Key="L.Engines.Role.Gif2webp">Animated GIF → WebP</sys:String>
+    <sys:String x:Key="L.Engines.Role.Oxipng">Lossless PNG optimizer</sys:String>
+    <sys:String x:Key="L.Engines.Role.Ect">Lossless PNG/JPEG optimizer</sys:String>
+    <sys:String x:Key="L.Engines.Role.Pngquant">PNG palette quantization</sys:String>
+    <sys:String x:Key="L.Engines.Role.Ffmpeg">Universal fallback decoder</sys:String>
+
+    <!-- Settings -->
+    <sys:String x:Key="L.Settings.Title">Settings</sys:String>
+    <sys:String x:Key="L.Settings.Subtitle">Tailored to the way you work.</sys:String>
+    <sys:String x:Key="L.Settings.Section.Appearance">Appearance &amp; motion</sys:String>
+    <sys:String x:Key="L.Settings.Section.Output">Output</sys:String>
+    <sys:String x:Key="L.Settings.Section.Performance">Performance</sys:String>
+    <sys:String x:Key="L.Settings.Section.Notifications">Notifications</sys:String>
+    <sys:String x:Key="L.Settings.Section.Integration">Windows integration</sys:String>
+    <sys:String x:Key="L.Settings.Section.Watch">Watched folders</sys:String>
+    <sys:String x:Key="L.Settings.Section.Migration">Migrate from IMGCompress</sys:String>
+    <sys:String x:Key="L.Settings.Section.Data">Data</sys:String>
+    <sys:String x:Key="L.Settings.Language">Language</sys:String>
+    <sys:String x:Key="L.Settings.Language.Auto">Same as Windows</sys:String>
+    <sys:String x:Key="L.Settings.Intro">Startup animation</sys:String>
+    <sys:String x:Key="L.Settings.Intro.Cinematic">Cinematic</sys:String>
+    <sys:String x:Key="L.Settings.Intro.Short">Short</sys:String>
+    <sys:String x:Key="L.Settings.Intro.Off">Off</sys:String>
+    <sys:String x:Key="L.Settings.Motion">Motion</sys:String>
+    <sys:String x:Key="L.Settings.Motion.Follow">Same as Windows</sys:String>
+    <sys:String x:Key="L.Settings.Motion.Reduced">Reduced</sys:String>
+    <sys:String x:Key="L.Settings.Motion.Full">Full</sys:String>
+    <sys:String x:Key="L.Settings.Output.Location">Where to save</sys:String>
+    <sys:String x:Key="L.Settings.Output.Subfolder">Subfolder next to the originals</sys:String>
+    <sys:String x:Key="L.Settings.Output.Same">Next to the originals</sys:String>
+    <sys:String x:Key="L.Settings.Output.Custom">A folder of your choice</sys:String>
+    <sys:String x:Key="L.Settings.Output.Folder">Folder</sys:String>
+    <sys:String x:Key="L.Settings.Output.SubfolderName">Subfolder name</sys:String>
+    <sys:String x:Key="L.Settings.Output.Pattern">File name pattern</sys:String>
+    <sys:String x:Key="L.Settings.Output.PatternHint">Use {name} {format} {profile} {score} {date}</sys:String>
+    <sys:String x:Key="L.Settings.Output.Conflict">If the file already exists</sys:String>
+    <sys:String x:Key="L.Settings.Conflict.Rename">Add a number</sys:String>
+    <sys:String x:Key="L.Settings.Conflict.Overwrite">Overwrite</sys:String>
+    <sys:String x:Key="L.Settings.Conflict.Skip">Skip</sys:String>
+    <sys:String x:Key="L.Settings.Output.Timestamps">Keep the original dates</sys:String>
+    <sys:String x:Key="L.Settings.Output.Mirror">Mirror the folder structure</sys:String>
+    <sys:String x:Key="L.Settings.Output.Replace">Replace originals (with a safety copy)</sys:String>
+    <sys:String x:Key="L.Settings.Replace.Title">Replace the originals?</sys:String>
+    <sys:String x:Key="L.Settings.Replace.Message">Each original will be moved to a .carbonado-backup folder next to it and replaced by the compressed version. You can restore it at any time.</sys:String>
+    <sys:String x:Key="L.Settings.Replace.Confirm">Replace with backup</sys:String>
+    <sys:String x:Key="L.Settings.Concurrency">Parallel jobs</sys:String>
+    <sys:String x:Key="L.Settings.Concurrency.Auto">Automatic</sys:String>
+    <sys:String x:Key="L.Settings.Concurrency.Hint">Automatic makes the most of your cores and memory without slowing the PC down.</sys:String>
+    <sys:String x:Key="L.Settings.Chime">Completion sound</sys:String>
+    <sys:String x:Key="L.Settings.Toasts">Completion notification</sys:String>
+    <sys:String x:Key="L.Settings.Explorer">“Compress with Carbonado” in the Explorer menu</sys:String>
+    <sys:String x:Key="L.Settings.Watch.Add">Add folder</sys:String>
+    <sys:String x:Key="L.Settings.Watch.Empty">No watched folders.</sys:String>
+    <sys:String x:Key="L.Settings.Watch.Hint">New images saved into these folders are compressed automatically with the chosen profile.</sys:String>
+    <sys:String x:Key="L.Settings.Data.Folder">Data folder</sys:String>
+    <sys:String x:Key="L.Settings.Data.ClearHistory">Clear history</sys:String>
+    <sys:String x:Key="L.Settings.Reset">Reset settings</sys:String>
+    <sys:String x:Key="L.Settings.Reset.Title">Reset the settings?</sys:String>
+    <sys:String x:Key="L.Settings.Reset.Message">Language, animations, output and performance go back to their defaults. Custom profiles and history are kept.</sys:String>
+    <sys:String x:Key="L.Settings.Reset.Confirm">Reset</sys:String>
+
+    <!-- Migration -->
+    <sys:String x:Key="L.Migration.Intro">Carbonado is the heir of IMGCompress. It finds the old inputs/outputs folders, the encoders and the temp files left behind on your disk.</sys:String>
+    <sys:String x:Key="L.Migration.Scan">Find IMGCompress</sys:String>
+    <sys:String x:Key="L.Migration.Scanning">Searching…</sys:String>
+    <sys:String x:Key="L.Migration.Found">Found {0} installations with {1} images to compress and {2} orphan temp files ({3}).</sys:String>
+    <sys:String x:Key="L.Migration.NothingFound">No trace of IMGCompress on this PC.</sys:String>
+    <sys:String x:Key="L.Migration.Level">Level you used</sys:String>
+    <sys:String x:Key="L.Migration.ImportInputs">Import the images in the “inputs” folder</sys:String>
+    <sys:String x:Key="L.Migration.UseOutputs">Save results into the “outputs” folder</sys:String>
+    <sys:String x:Key="L.Migration.RegisterTools">Reuse ffmpeg and pngquant as fallbacks</sys:String>
+    <sys:String x:Key="L.Migration.CreateWatch">Watch “inputs” like IMGCompress did</sys:String>
+    <sys:String x:Key="L.Migration.CleanOrphans">Move orphan temp files to the Recycle Bin</sys:String>
+    <sys:String x:Key="L.Migration.Apply">Migrate</sys:String>
+    <sys:String x:Key="L.Migration.Orphans.Title">Move the temp files to the Recycle Bin?</sys:String>
+    <sys:String x:Key="L.Migration.Orphans.Message">{0} temp files left by IMGCompress ({1}) will be moved to the Recycle Bin: you can always restore them.</sys:String>
+    <sys:String x:Key="L.Migration.Orphans.Recycle">Move to Recycle Bin</sys:String>
+    <sys:String x:Key="L.Migration.Report">Migration complete: {0} images queued · destination {1} · profile “{2}” · {3} encoders reused · {4} temp files recycled ({5}).</sys:String>
+    <sys:String x:Key="L.FirstRun.Legacy.Title">IMGCompress found</sys:String>
+    <sys:String x:Key="L.FirstRun.Legacy.Message">Bring the images and workflow of the old IMGCompress into Carbonado?</sys:String>
+    <sys:String x:Key="L.FirstRun.Legacy.Open">Open migration</sys:String>
+    <sys:String x:Key="L.FirstRun.Legacy.Later">Later</sys:String>
+
+    <!-- About -->
+    <sys:String x:Key="L.About.Title">About</sys:String>
+    <sys:String x:Key="L.About.Version">Version {0}</sys:String>
+    <sys:String x:Key="L.About.Startup">Startup: first frame in {0} ms · interactive in {1} ms</sys:String>
+    <sys:String x:Key="L.About.Story">Carbonado is the black diamond, the toughest in nature: carbon compressed under immense pressure until it shines. Carbonado does the same to your images: it squeezes them to the bone without dimming their light.</sys:String>
+    <sys:String x:Key="L.About.Credits">Encoders: libjxl, libavif (aom, dav1d), libwebp, oxipng, ECT, pngquant, FFmpeg. Perceptual metric: SSIMULACRA2.</sys:String>
+    <sys:String x:Key="L.About.Licenses">Third-party licenses</sys:String>
+    <sys:String x:Key="L.About.Repository">Project on GitHub</sys:String>
+
+    <!-- Exit -->
+    <sys:String x:Key="L.Exit.Running.Title">Compression in progress</sys:String>
+    <sys:String x:Key="L.Exit.Running.Message">Quitting cancels the running jobs. No original file is touched.</sys:String>
+    <sys:String x:Key="L.Exit.Running.Confirm">Cancel and quit</sys:String>
+    <sys:String x:Key="L.Exit.Running.Stay">Stay</sys:String>
+
+    <!-- Errors -->
+    <sys:String x:Key="L.Error.Unexpected.Title">Something went wrong</sys:String>
+
+    <!-- Toasts -->
+    <sys:String x:Key="L.Toast.Finished.Title">Forging complete</sys:String>
+    <sys:String x:Key="L.Toast.FinishedWithErrors.Title">Completed with errors</sys:String>
+    <sys:String x:Key="L.Toast.Finished.Message">{0} images · {1} saved ({2}) · {3} errors</sys:String>
+    <sys:String x:Key="L.Toast.Watch.Title">Watched folder</sys:String>
+    <sys:String x:Key="L.Toast.Watch.Message">{0} compressed: −{1}</sys:String>
+    <sys:String x:Key="L.Toast.Added">{0} images added</sys:String>
+
+    <!-- Command palette -->
+    <sys:String x:Key="L.Cmd.AddFiles">Add files…</sys:String>
+    <sys:String x:Key="L.Cmd.AddFolder">Add folder…</sys:String>
+    <sys:String x:Key="L.Cmd.Paste">Paste images from the clipboard</sys:String>
+    <sys:String x:Key="L.Cmd.Compress">Compress</sys:String>
+    <sys:String x:Key="L.Cmd.Pause">Pause</sys:String>
+    <sys:String x:Key="L.Cmd.Resume">Resume</sys:String>
+    <sys:String x:Key="L.Cmd.Cancel">Cancel compression</sys:String>
+    <sys:String x:Key="L.Cmd.Clear">Clear the queue</sys:String>
+    <sys:String x:Key="L.Cmd.GoTo">Go to: {0}</sys:String>
+    <sys:String x:Key="L.Cmd.UseProfile">Use profile: {0}</sys:String>
+    <sys:String x:Key="L.Cmd.Language">Language: {0}</sys:String>
+    <sys:String x:Key="L.Cmd.ToggleMotion">Reduced motion: toggle</sys:String>
+    <sys:String x:Key="L.Cmd.OpenData">Open the data folder</sys:String>
+    <sys:String x:Key="L.Cmd.ReplayIntro">Replay the startup animation</sys:String>
+</ResourceDictionary>

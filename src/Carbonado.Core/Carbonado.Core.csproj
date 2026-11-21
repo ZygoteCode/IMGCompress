@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Engine, codecs, metrics, tools, persistence, migration. No UI types (WPF imaging is used only for WIC decoding). -->
+  <PropertyGroup>
+    <RootNamespace>Carbonado.Core</RootNamespace>
+    <AssemblyName>Carbonado.Core</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Carbonado.Core.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="System.IO" />
+  </ItemGroup>
+</Project>

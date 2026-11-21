@@ -1,0 +1,38 @@
+<UserControl x:Class="Carbonado.App.Shell.CommandPaletteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             AutomationProperties.AutomationId="Palette.Box">
+    <Grid>
+        <Border Style="{StaticResource Border.Popup}" />
+        <DockPanel Margin="10">
+            <TextBox x:Name="Search" DockPanel.Dock="Top" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" FontSize="15"
+                     theme:Chrome.Icon="{StaticResource Icon.Search}" theme:Chrome.Placeholder="{DynamicResource L.Palette.Hint}"
+                     PreviewKeyDown="OnSearchKeyDown" AutomationProperties.AutomationId="Palette.Search" />
+            <TextBlock DockPanel.Dock="Bottom" Text="{DynamicResource L.Palette.Empty}" Style="{StaticResource Text.Caption}"
+                       Foreground="{StaticResource B.TextTertiary}" Margin="12,10"
+                       Visibility="{Binding Results.Count, Converter={StaticResource Conv.ZeroToVisible}}" />
+            <ListBox x:Name="List" ItemsSource="{Binding Results}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Margin="0,8,0,0"
+                     MaxHeight="380" BorderThickness="0" Background="Transparent" MouseLeftButtonUp="OnListClick"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.AutomationId="Palette.Results">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="4,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:IconPresenter Icon="{Binding IconKey, Converter={StaticResource Conv.IconKey}}" Width="18" Height="18"
+                                              Foreground="{StaticResource B.TextSecondary}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="12,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Grid.Column="2" Text="{Binding Shortcut}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </Grid>
+</UserControl>

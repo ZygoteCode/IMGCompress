@@ -1,3 +1,22 @@
-/bin
-/obj
-/packages
+# Build output
+bin/
+obj/
+artifacts/
+/packages/
+*.user
+*.suo
+
+# IDE caches
+.vs/
+.idea/
+
+# Encoder binaries are downloaded by build/fetch-tools.ps1 (manifest.json stays tracked)
+/tools/**/*.exe
+/tools/**/*.dll
+
+# Test outputs (render snapshots, temp data)
+tests/artifacts/
+TestResults/
+
+# Superpowers scratch
+.superpowers/

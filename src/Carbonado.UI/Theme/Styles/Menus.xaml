@@ -1,0 +1,167 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme"
+                    xmlns:c="clr-namespace:Carbonado.UI.Controls">
+    <!--
+        Popups: ToolTip, ContextMenu and MenuItem (all four roles) on the raised popup card, which drops in when
+        shown. Rows highlight with glass; checks are aqua; shortcuts sit right-aligned in secondary text.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ===== ToolTip ===== -->
+    <Style TargetType="ToolTip">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="HasDropShadow" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Grid Margin="10,4,10,18">
+                        <Border Style="{StaticResource Border.Popup}" Padding="{TemplateBinding Padding}" CornerRadius="{StaticResource Radius.Small}">
+                            <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== ContextMenu ===== -->
+    <Style TargetType="ContextMenu">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="HasDropShadow" Value="False" />
+        <Setter Property="HorizontalOffset" Value="-12" />
+        <Setter Property="VerticalOffset" Value="-4" />
+        <Setter Property="MinWidth" Value="200" />
+        <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Grid Margin="12,4,12,24">
+                        <Border Style="{StaticResource Border.Popup}">
+                            <ScrollViewer>
+                                <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Separators ===== -->
+    <Style TargetType="Separator">
+        <Setter Property="Margin" Value="0,8" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border Height="1" Background="{StaticResource B.White.A08}" SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator" BasedOn="{StaticResource {x:Type Separator}}">
+        <Setter Property="Margin" Value="8,4" />
+    </Style>
+
+    <!-- ===== MenuItem (one template, roles switch layout) ===== -->
+    <ControlTemplate x:Key="Template.MenuItem" TargetType="MenuItem">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}" MinHeight="32" SnapsToDevicePixels="True">
+            <Border x:Name="Hover" Opacity="0" Background="{StaticResource B.White.A08}" CornerRadius="{StaticResource Radius.Small}" />
+            <Grid x:Name="Row" Margin="{TemplateBinding Padding}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="IconColumn" Width="28" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition x:Name="GestureColumn" Width="Auto" SharedSizeGroup="MenuGesture" />
+                    <ColumnDefinition x:Name="ArrowColumn" Width="20" />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter x:Name="Icon" ContentSource="Icon" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <c:IconPresenter x:Name="Check" Icon="{StaticResource Icon.Check}" Width="16" Height="16" HorizontalAlignment="Left"
+                                 Foreground="{StaticResource B.Aqua}" StrokeThickness="2" Visibility="Collapsed" />
+                <ContentPresenter x:Name="Header" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center"
+                                  TextElement.Foreground="{TemplateBinding Foreground}" />
+                <TextBlock x:Name="Gesture" Grid.Column="2" Margin="28,0,0,0" Text="{TemplateBinding InputGestureText}"
+                           Foreground="{StaticResource B.TextSecondary}" FontSize="12" VerticalAlignment="Center" />
+                <c:IconPresenter x:Name="Arrow" Grid.Column="3" Icon="{StaticResource Icon.ChevronRight}" Width="14" Height="14"
+                                 HorizontalAlignment="Right" Foreground="{StaticResource B.TextSecondary}" Visibility="Collapsed" />
+            </Grid>
+            <Popup x:Name="PART_Popup" Placement="Right" HorizontalOffset="-8" VerticalOffset="-9" AllowsTransparency="True"
+                   Focusable="False" PopupAnimation="None" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                <Grid Margin="12,4,12,24" Grid.IsSharedSizeScope="True" MinWidth="200">
+                    <Border Style="{StaticResource Border.Popup}">
+                        <ScrollViewer>
+                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Hover" Property="Opacity" Value="1" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Check" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Header" Property="TextElement.Foreground" Value="{StaticResource B.TextDisabled}" />
+                <Setter TargetName="Gesture" Property="Foreground" Value="{StaticResource B.TextDisabled}" />
+                <Setter TargetName="Icon" Property="Opacity" Value="0.4" />
+                <Setter TargetName="Check" Property="Opacity" Value="0.4" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter TargetName="Arrow" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Gesture" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter TargetName="IconColumn" Property="Width" Value="0" />
+                <Setter TargetName="GestureColumn" Property="Width" Value="0" />
+                <Setter TargetName="ArrowColumn" Property="Width" Value="0" />
+                <Setter TargetName="PART_Popup" Property="Placement" Value="Bottom" />
+                <Setter TargetName="PART_Popup" Property="HorizontalOffset" Value="-12" />
+                <Setter TargetName="PART_Popup" Property="VerticalOffset" Value="0" />
+                <Setter Property="Padding" Value="12,0" />
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter TargetName="IconColumn" Property="Width" Value="0" />
+                <Setter TargetName="GestureColumn" Property="Width" Value="0" />
+                <Setter TargetName="ArrowColumn" Property="Width" Value="0" />
+                <Setter Property="Padding" Value="12,0" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="MenuItem">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="Padding" Value="8,0,6,0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template" Value="{StaticResource Template.MenuItem}" />
+    </Style>
+
+    <!-- Menu bar (top-level items). -->
+    <Style TargetType="Menu">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="Background" Value="{StaticResource B.Transparent}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Menu">
+                    <Border Background="{TemplateBinding Background}">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

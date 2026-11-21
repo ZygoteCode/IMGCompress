@@ -1,0 +1,192 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:m="clr-namespace:Carbonado.UI.Motion"
+                    mc:Ignorable="po">
+    <!--
+        Carbonado design tokens. The ONLY place where literal colors live.
+        Brand: obsidian blacks + prismatic dispersion (black diamond under pressure).
+    -->
+
+    <!-- ===== Palette: obsidian (surfaces) ===== -->
+    <Color x:Key="C.Obsidian950">#05060A</Color>
+    <Color x:Key="C.Obsidian900">#0A0B12</Color>
+    <Color x:Key="C.Obsidian850">#0F1019</Color>
+    <Color x:Key="C.Obsidian800">#151724</Color>
+    <Color x:Key="C.Obsidian750">#1C1F30</Color>
+    <Color x:Key="C.Obsidian700">#252940</Color>
+    <Color x:Key="C.Obsidian600">#33385A</Color>
+
+    <!-- ===== Palette: text ===== -->
+    <Color x:Key="C.Diamond50">#F4F2FF</Color>
+    <Color x:Key="C.Mist300">#B4B2CC</Color>
+    <Color x:Key="C.Mist500">#77758F</Color>
+    <Color x:Key="C.Mist700">#4A4860</Color>
+
+    <!-- ===== Palette: prismatic spectrum ===== -->
+    <Color x:Key="C.Ice">#7DF9FF</Color>
+    <Color x:Key="C.Aqua">#38E1FF</Color>
+    <Color x:Key="C.Iris">#8B7BFF</Color>
+    <Color x:Key="C.Orchid">#C86BFF</Color>
+    <Color x:Key="C.Rose">#FF5FA8</Color>
+    <Color x:Key="C.Ember">#FFB86B</Color>
+
+    <!-- ===== Palette: semantic ===== -->
+    <Color x:Key="C.Emerald">#2BF0A1</Color>
+    <Color x:Key="C.Topaz">#FFC857</Color>
+    <Color x:Key="C.Ruby">#FF4D6D</Color>
+
+    <!-- ===== Translucent helpers ===== -->
+    <Color x:Key="C.White.A04">#0AFFFFFF</Color>
+    <Color x:Key="C.White.A08">#14FFFFFF</Color>
+    <Color x:Key="C.White.A12">#1FFFFFFF</Color>
+    <Color x:Key="C.White.A20">#33FFFFFF</Color>
+    <Color x:Key="C.White.A40">#66FFFFFF</Color>
+    <Color x:Key="C.Black.A40">#66000000</Color>
+    <Color x:Key="C.Black.A70">#B3000000</Color>
+    <Color x:Key="C.Aqua.A15">#2638E1FF</Color>
+    <Color x:Key="C.Aqua.A35">#5938E1FF</Color>
+    <Color x:Key="C.Iris.A15">#268B7BFF</Color>
+    <Color x:Key="C.Iris.A35">#598B7BFF</Color>
+    <Color x:Key="C.Rose.A15">#26FF5FA8</Color>
+    <Color x:Key="C.Emerald.A15">#262BF0A1</Color>
+    <Color x:Key="C.Topaz.A15">#26FFC857</Color>
+    <Color x:Key="C.Ruby.A15">#26FF4D6D</Color>
+    <Color x:Key="C.Transparent">#00000000</Color>
+    <Color x:Key="C.Obsidian950.A00">#0005060A</Color>
+    <Color x:Key="C.Obsidian950.A80">#CC05060A</Color>
+
+    <!-- ===== Solid brushes (one per color token) ===== -->
+    <SolidColorBrush x:Key="B.Obsidian950" Color="{StaticResource C.Obsidian950}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian900" Color="{StaticResource C.Obsidian900}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian850" Color="{StaticResource C.Obsidian850}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian800" Color="{StaticResource C.Obsidian800}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian750" Color="{StaticResource C.Obsidian750}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian700" Color="{StaticResource C.Obsidian700}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Obsidian600" Color="{StaticResource C.Obsidian600}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Diamond50" Color="{StaticResource C.Diamond50}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Mist300" Color="{StaticResource C.Mist300}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Mist500" Color="{StaticResource C.Mist500}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Mist700" Color="{StaticResource C.Mist700}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Ice" Color="{StaticResource C.Ice}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Aqua" Color="{StaticResource C.Aqua}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Iris" Color="{StaticResource C.Iris}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Orchid" Color="{StaticResource C.Orchid}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Rose" Color="{StaticResource C.Rose}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Ember" Color="{StaticResource C.Ember}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Emerald" Color="{StaticResource C.Emerald}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Topaz" Color="{StaticResource C.Topaz}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Ruby" Color="{StaticResource C.Ruby}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.White.A04" Color="{StaticResource C.White.A04}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.White.A08" Color="{StaticResource C.White.A08}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.White.A12" Color="{StaticResource C.White.A12}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.White.A20" Color="{StaticResource C.White.A20}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.White.A40" Color="{StaticResource C.White.A40}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Black.A40" Color="{StaticResource C.Black.A40}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Black.A70" Color="{StaticResource C.Black.A70}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Aqua.A15" Color="{StaticResource C.Aqua.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Aqua.A35" Color="{StaticResource C.Aqua.A35}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Iris.A15" Color="{StaticResource C.Iris.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Iris.A35" Color="{StaticResource C.Iris.A35}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Rose.A15" Color="{StaticResource C.Rose.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Emerald.A15" Color="{StaticResource C.Emerald.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Topaz.A15" Color="{StaticResource C.Topaz.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Ruby.A15" Color="{StaticResource C.Ruby.A15}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Transparent" Color="{StaticResource C.Transparent}" po:Freeze="True" />
+
+    <!-- ===== Semantic aliases ===== -->
+    <SolidColorBrush x:Key="B.Window" Color="{StaticResource C.Obsidian950}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Surface" Color="{StaticResource C.Obsidian850}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Raised" Color="{StaticResource C.Obsidian800}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Hover" Color="{StaticResource C.Obsidian750}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Pressed" Color="{StaticResource C.Obsidian700}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Border" Color="{StaticResource C.Obsidian600}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.BorderSubtle" Color="{StaticResource C.Obsidian700}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Text" Color="{StaticResource C.Diamond50}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.TextSecondary" Color="{StaticResource C.Mist300}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.TextTertiary" Color="{StaticResource C.Mist500}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.TextDisabled" Color="{StaticResource C.Mist700}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Accent" Color="{StaticResource C.Aqua}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.AccentSecondary" Color="{StaticResource C.Iris}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Success" Color="{StaticResource C.Emerald}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Warning" Color="{StaticResource C.Topaz}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Danger" Color="{StaticResource C.Ruby}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Focus" Color="{StaticResource C.Aqua}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Glass" Color="{StaticResource C.White.A04}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.GlassBorder" Color="{StaticResource C.White.A08}" po:Freeze="True" />
+    <SolidColorBrush x:Key="B.Overlay" Color="{StaticResource C.Obsidian950.A80}" po:Freeze="True" />
+
+    <!-- ===== Signature gradients ===== -->
+    <!-- Prisma: 120° Aqua → Iris → Rose. -->
+    <LinearGradientBrush x:Key="B.Prisma" StartPoint="0,0.2" EndPoint="1,0.8" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Aqua}" />
+        <GradientStop Offset="0.5" Color="{StaticResource C.Iris}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Rose}" />
+    </LinearGradientBrush>
+    <!-- Spectrum: full dispersion Ice → Ember. -->
+    <LinearGradientBrush x:Key="B.Spectrum" StartPoint="0,0.5" EndPoint="1,0.5" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Ice}" />
+        <GradientStop Offset="0.2" Color="{StaticResource C.Aqua}" />
+        <GradientStop Offset="0.45" Color="{StaticResource C.Iris}" />
+        <GradientStop Offset="0.65" Color="{StaticResource C.Orchid}" />
+        <GradientStop Offset="0.82" Color="{StaticResource C.Rose}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Ember}" />
+    </LinearGradientBrush>
+    <!-- Hairline edge highlight used on cards (top-left light, fading). -->
+    <LinearGradientBrush x:Key="B.EdgeLight" StartPoint="0,0" EndPoint="1,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.White.A20}" />
+        <GradientStop Offset="0.35" Color="{StaticResource C.White.A08}" />
+        <GradientStop Offset="1" Color="{StaticResource C.White.A04}" />
+    </LinearGradientBrush>
+    <!-- Window backdrop: deep obsidian with a faint iris bloom top-right and aqua bottom-left. -->
+    <RadialGradientBrush x:Key="B.Backdrop.Bloom1" Center="0.85,0.05" GradientOrigin="0.85,0.05" RadiusX="0.75" RadiusY="0.9" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Iris.A15}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="B.Backdrop.Bloom2" Center="0.05,1" GradientOrigin="0.05,1" RadiusX="0.7" RadiusY="0.8" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Aqua.A15}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </RadialGradientBrush>
+
+    <!-- ===== Typography ===== -->
+    <FontFamily x:Key="Font.UI">pack://application:,,,/Carbonado.UI;component/Assets/Fonts/#Inter, Segoe UI Variable Text, Segoe UI</FontFamily>
+    <FontFamily x:Key="Font.Display">pack://application:,,,/Carbonado.UI;component/Assets/Fonts/#Inter, Segoe UI Variable Display, Segoe UI</FontFamily>
+    <FontFamily x:Key="Font.Mono">Cascadia Mono, Consolas</FontFamily>
+    <sys:Double x:Key="FontSize.Caption">11</sys:Double>
+    <sys:Double x:Key="FontSize.Body">13</sys:Double>
+    <sys:Double x:Key="FontSize.BodyLarge">15</sys:Double>
+    <sys:Double x:Key="FontSize.Subtitle">18</sys:Double>
+    <sys:Double x:Key="FontSize.Title">24</sys:Double>
+    <sys:Double x:Key="FontSize.Display">40</sys:Double>
+    <sys:Double x:Key="FontSize.Hero">64</sys:Double>
+
+    <!-- ===== Motion ===== -->
+    <Duration x:Key="Duration.Micro">0:0:0.09</Duration>
+    <Duration x:Key="Duration.Quick">0:0:0.16</Duration>
+    <Duration x:Key="Duration.Standard">0:0:0.24</Duration>
+    <Duration x:Key="Duration.Page">0:0:0.42</Duration>
+    <Duration x:Key="Duration.Hero">0:0:0.72</Duration>
+    <m:BezierEase x:Key="Ease.Crystallize" X1="0.16" Y1="1" X2="0.3" Y2="1" />
+    <m:BezierEase x:Key="Ease.Implode" X1="0.7" Y1="0" X2="0.84" Y2="0" />
+    <m:BezierEase x:Key="Ease.Glide" X1="0.4" Y1="0" X2="0.2" Y2="1" />
+    <BackEase x:Key="Ease.Settle" EasingMode="EaseOut" Amplitude="0.35" />
+
+    <!-- ===== Shape & space ===== -->
+    <CornerRadius x:Key="Radius.Small">6</CornerRadius>
+    <CornerRadius x:Key="Radius.Medium">10</CornerRadius>
+    <CornerRadius x:Key="Radius.Large">16</CornerRadius>
+    <Thickness x:Key="Space.XS">4</Thickness>
+    <Thickness x:Key="Space.S">8</Thickness>
+    <Thickness x:Key="Space.M">12</Thickness>
+    <Thickness x:Key="Space.L">16</Thickness>
+    <Thickness x:Key="Space.XL">24</Thickness>
+    <Thickness x:Key="Space.XXL">32</Thickness>
+
+    <!-- ===== Depth ===== -->
+    <DropShadowEffect x:Key="Shadow.Card" BlurRadius="28" ShadowDepth="8" Direction="270" Opacity="0.5" Color="#000000" po:Freeze="True" />
+    <DropShadowEffect x:Key="Shadow.Popup" BlurRadius="36" ShadowDepth="12" Direction="270" Opacity="0.6" Color="#000000" po:Freeze="True" />
+    <DropShadowEffect x:Key="Glow.Aqua" BlurRadius="22" ShadowDepth="0" Opacity="0.65" Color="{StaticResource C.Aqua}" po:Freeze="True" />
+    <DropShadowEffect x:Key="Glow.Iris" BlurRadius="22" ShadowDepth="0" Opacity="0.65" Color="{StaticResource C.Iris}" po:Freeze="True" />
+</ResourceDictionary>

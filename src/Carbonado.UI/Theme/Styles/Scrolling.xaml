@@ -1,0 +1,183 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme">
+    <!--
+        Scrolling: hairline glass thumbs without arrow buttons. The thumb rests slim and swells (scale, not layout)
+        when the bar is hovered; it brightens under the pointer and while dragged.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ScrollBar.Page" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{StaticResource B.Transparent}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBar.Thumb" TargetType="Thumb">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Grid Background="{StaticResource B.Transparent}"
+                          VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Lit" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Lit" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="Held" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="Rest" Margin="2" CornerRadius="3" Background="{StaticResource B.White.A20}" />
+                        <Border x:Name="Lit" Margin="2" CornerRadius="3" Opacity="0" Background="{StaticResource B.White.A20}" />
+                        <Border x:Name="Held" Margin="2" CornerRadius="3" Opacity="0" Background="{StaticResource B.Iris.A35}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="Template.ScrollBar.Vertical" TargetType="ScrollBar">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Swell" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Opacity" To="0.3" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Track x:Name="PART_Track" IsDirectionReversed="True" RenderTransformOrigin="1,0.5">
+                <Track.RenderTransform>
+                    <ScaleTransform x:Name="Swell" ScaleX="0.6" />
+                </Track.RenderTransform>
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBar.Page}" Command="ScrollBar.PageUpCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBar.Page}" Command="ScrollBar.PageDownCommand" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource ScrollBar.Thumb}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Template.ScrollBar.Horizontal" TargetType="ScrollBar">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Swell" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="PART_Track" Storyboard.TargetProperty="Opacity" To="0.3" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Track x:Name="PART_Track" RenderTransformOrigin="0.5,1">
+                <Track.RenderTransform>
+                    <ScaleTransform x:Name="Swell" ScaleY="0.6" />
+                </Track.RenderTransform>
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBar.Page}" Command="ScrollBar.PageLeftCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBar.Page}" Command="ScrollBar.PageRightCommand" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource ScrollBar.Thumb}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="ScrollBar">
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="NaN" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template" Value="{StaticResource Template.ScrollBar.Vertical}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="NaN" />
+                <Setter Property="Height" Value="10" />
+                <Setter Property="Template" Value="{StaticResource Template.ScrollBar.Horizontal}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="Template.ScrollViewer" TargetType="ScrollViewer">
+        <Grid Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="{TemplateBinding Padding}"
+                                    CanContentScroll="{TemplateBinding CanContentScroll}"
+                                    Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Cursor="Arrow"
+                       Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}"
+                       Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                       AutomationProperties.AutomationId="VerticalScrollBar" />
+            <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Row="1" Orientation="Horizontal" Cursor="Arrow"
+                       Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}"
+                       Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                       AutomationProperties.AutomationId="HorizontalScrollBar" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="ScrollViewer">
+        <Setter Property="Template" Value="{StaticResource Template.ScrollViewer}" />
+    </Style>
+</ResourceDictionary>

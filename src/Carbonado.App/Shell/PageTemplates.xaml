@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:forge="clr-namespace:Carbonado.App.Pages.Forge"
+                    xmlns:compare="clr-namespace:Carbonado.App.Pages.Compare"
+                    xmlns:profiles="clr-namespace:Carbonado.App.Pages.Profiles"
+                    xmlns:archive="clr-namespace:Carbonado.App.Pages.Archive"
+                    xmlns:engines="clr-namespace:Carbonado.App.Pages.Engines"
+                    xmlns:settings="clr-namespace:Carbonado.App.Pages.Settings"
+                    xmlns:about="clr-namespace:Carbonado.App.Pages.About">
+    <!-- Page view-model → view. Merged right after the first frame (the shell never shows a page before it). -->
+    <DataTemplate DataType="{x:Type forge:ForgeViewModel}">
+        <forge:ForgeView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type compare:CompareViewModel}">
+        <compare:CompareView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type profiles:ProfilesViewModel}">
+        <profiles:ProfilesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type archive:ArchiveViewModel}">
+        <archive:ArchiveView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type engines:EnginesViewModel}">
+        <engines:EnginesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type settings:SettingsViewModel}">
+        <settings:SettingsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type about:AboutViewModel}">
+        <about:AboutView />
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,141 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+                    xmlns:shell="clr-namespace:Carbonado.App.Shell">
+    <!-- App-level resources: the brand theme (shared, parsed once per UI thread) + shell-specific styles. -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="pack://application:,,,/Carbonado.UI;component/Theme/Theme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ===== Converters ===== -->
+    <shell:BoolToVisibilityConverter x:Key="Conv.BoolToVisible" />
+    <shell:BoolToVisibilityConverter x:Key="Conv.BoolToCollapsed" Invert="True" />
+    <shell:NullToVisibilityConverter x:Key="Conv.NotNullToVisible" />
+    <shell:NullToVisibilityConverter x:Key="Conv.NullToVisible" Invert="True" />
+    <shell:CountToVisibilityConverter x:Key="Conv.CountToVisible" />
+    <shell:CountToVisibilityConverter x:Key="Conv.ZeroToVisible" Invert="True" />
+    <shell:EnumEqualsConverter x:Key="Conv.EnumEquals" />
+    <shell:QueueStatusToGemStateConverter x:Key="Conv.GemState" />
+    <shell:ComparisonModeConverter x:Key="Conv.CompareMode" />
+    <shell:ProfileNameConverter x:Key="Conv.ProfileName" />
+    <shell:ProfileDescriptionConverter x:Key="Conv.ProfileDescription" />
+    <shell:LocalizedEnumConverter x:Key="Conv.LocalizedEnum" />
+    <shell:BytesConverter x:Key="Conv.Bytes" />
+    <shell:SavedPercentConverter x:Key="Conv.SavedPercent" />
+    <shell:GradeVisibilityConverter x:Key="Conv.GradeVisible" />
+    <shell:IconKeyConverter x:Key="Conv.IconKey" />
+    <shell:FormatSlicesConverter x:Key="Conv.FormatSlices" />
+    <shell:FormatBrushConverter x:Key="Conv.FormatBrush" />
+    <shell:EngineStatusBrushConverter x:Key="Conv.EngineStatusBrush" />
+    <shell:AvailabilityOpacityConverter x:Key="Conv.AvailabilityOpacity" />
+    <shell:ThumbnailBrushConverter x:Key="Conv.ThumbnailBrush" />
+
+    <!-- ===== Page scaffolding ===== -->
+    <Thickness x:Key="Page.Margin">36,26,36,26</Thickness>
+    <Style x:Key="Text.PageTitle" TargetType="TextBlock" BasedOn="{StaticResource Text.Display}">
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="Margin" Value="0,0,0,2" />
+    </Style>
+    <Style x:Key="Text.PageSubtitle" TargetType="TextBlock" BasedOn="{StaticResource Text.Body}">
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.BodyLarge}" />
+    </Style>
+    <Style x:Key="Text.SectionLabel" TargetType="TextBlock" BasedOn="{StaticResource Text.Caption}">
+        <Setter Property="Foreground" Value="{StaticResource B.TextTertiary}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+    <Style x:Key="Border.Section" TargetType="Border" BasedOn="{StaticResource Border.Card}">
+        <Setter Property="Padding" Value="22,20,22,22" />
+    </Style>
+
+    <!-- ===== Grade badge (FL / VVS / VS / SI / I) ===== -->
+    <Style x:Key="Border.Grade" TargetType="Border">
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="7,2,7,2" />
+        <Setter Property="Background" Value="{StaticResource B.Iris.A15}" />
+        <Setter Property="BorderBrush" Value="{StaticResource B.Iris.A35}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="Text.Grade" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="10.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource B.Ice}" />
+    </Style>
+
+    <!-- ===== Segmented control (ListBox as a row of pills) ===== -->
+    <Style x:Key="List.Segmented" TargetType="ListBox">
+        <Setter Property="Background" Value="{StaticResource B.Obsidian900}" />
+        <Setter Property="BorderBrush" Value="{StaticResource B.BorderSubtle}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Cycle" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="11" Padding="{TemplateBinding Padding}">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="13,6,13,6" />
+                    <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+                    <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+                    <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+                    <Setter Property="FontWeight" Value="Medium" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource Focus.Prisma.Small}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid>
+                                    <Border x:Name="Hover" CornerRadius="8" Background="{StaticResource B.Hover}" Opacity="0" />
+                                    <Border x:Name="Selected" CornerRadius="8" Background="{StaticResource B.Raised}"
+                                            BorderBrush="{StaticResource Fill.PrismaHairline}" BorderThickness="1" Opacity="0" />
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Hover" Property="Opacity" Value="1" />
+                                        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Selected" Property="Opacity" Value="1" />
+                                        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource B.TextDisabled}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Window caption buttons ===== -->
+    <Style x:Key="Button.Caption" TargetType="Button" BasedOn="{StaticResource Button.Icon}">
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Margin" Value="2,0,0,0" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+    </Style>
+</ResourceDictionary>

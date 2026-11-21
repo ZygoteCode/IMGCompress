@@ -1,0 +1,234 @@
+<UserControl x:Class="Carbonado.App.Pages.Settings.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:settings="clr-namespace:Carbonado.App.Pages.Settings"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=settings:SettingsViewModel}"
+             AutomationProperties.AutomationId="Page.Settings">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="Section.Title" TargetType="TextBlock" BasedOn="{StaticResource Text.Subtitle}">
+                <Setter Property="Margin" Value="0,0,0,14" />
+            </Style>
+            <Style x:Key="Row" TargetType="Grid">
+                <Setter Property="Margin" Value="0,7" />
+                <Setter Property="MinHeight" Value="36" />
+            </Style>
+            <Style x:Key="Row.Label" TargetType="TextBlock" BasedOn="{StaticResource Text.Body}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Margin" Value="0,0,24,0" />
+            </Style>
+            <Style x:Key="Row.Hint" TargetType="TextBlock" BasedOn="{StaticResource Text.Caption}">
+                <Setter Property="Foreground" Value="{StaticResource B.TextTertiary}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="Margin" Value="0,2,0,6" />
+            </Style>
+            <Style x:Key="Row.Combo" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                <Setter Property="Width" Value="300" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="DisplayMemberPath" Value="Label" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource Page.Margin}" MaxWidth="1120">
+            <StackPanel fx:Stagger.Index="0" Margin="0,0,0,20">
+                <TextBlock Text="{DynamicResource L.Settings.Title}" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="{DynamicResource L.Settings.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+
+            <!-- Appearance & motion -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,16" fx:Stagger.Index="1">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Appearance}" Style="{StaticResource Section.Title}" />
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Language}" Style="{StaticResource Row.Label}" />
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}"
+                                  AutomationProperties.AutomationId="Settings.Language" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Intro}" Style="{StaticResource Row.Label}" />
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Intros}" SelectedItem="{Binding SelectedIntro}" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Motion}" Style="{StaticResource Row.Label}" />
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding MotionOptions}" SelectedItem="{Binding SelectedMotion}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Output -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,16" fx:Stagger.Index="2">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Output}" Style="{StaticResource Section.Title}" />
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Location}" Style="{StaticResource Row.Label}" />
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}" Visibility="{Binding IsCustomFolder, Converter={StaticResource Conv.BoolToVisible}}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Folder}" Style="{StaticResource Row.Label}" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBox Text="{Binding CustomFolder, UpdateSourceTrigger=LostFocus}" Width="300" />
+                            <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Common.Browse}" Command="{Binding BrowseCustomFolderCommand}" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Style="{StaticResource Row}" Visibility="{Binding IsSubfolder, Converter={StaticResource Conv.BoolToVisible}}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.SubfolderName}" Style="{StaticResource Row.Label}" />
+                        <TextBox Text="{Binding SubfolderName, UpdateSourceTrigger=LostFocus}" Width="300" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource L.Settings.Output.Pattern}" Style="{StaticResource Row.Label}" />
+                            <TextBlock Text="{DynamicResource L.Settings.Output.PatternHint}" Style="{StaticResource Row.Hint}" />
+                        </StackPanel>
+                        <TextBox Text="{Binding NamePattern, UpdateSourceTrigger=LostFocus}" Width="300" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                 FontFamily="{StaticResource Font.Mono}" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Conflict}" Style="{StaticResource Row.Label}" />
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Conflicts}" SelectedItem="{Binding SelectedConflict}" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Timestamps}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding PreserveTimestamps}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Mirror}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding MirrorTree}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Output.Replace}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding ReplaceOriginals}" HorizontalAlignment="Right"
+                                  AutomationProperties.AutomationId="Settings.ReplaceOriginals" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Performance & notifications & integration -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,16" fx:Stagger.Index="3">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Performance}" Style="{StaticResource Section.Title}" />
+                    <Grid Style="{StaticResource Row}">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource L.Settings.Concurrency}" Style="{StaticResource Row.Label}" />
+                            <TextBlock Text="{DynamicResource L.Settings.Concurrency.Hint}" Style="{StaticResource Row.Hint}" />
+                        </StackPanel>
+                        <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Concurrency}" SelectedItem="{Binding SelectedConcurrency}" VerticalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Notifications}" Style="{StaticResource Section.Title}" Margin="0,18,0,8" />
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Toasts}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding ShowToasts}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Chime}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding PlayChime}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Integration}" Style="{StaticResource Section.Title}" Margin="0,18,0,8" />
+                    <Grid Style="{StaticResource Row}">
+                        <TextBlock Text="{DynamicResource L.Settings.Explorer}" Style="{StaticResource Row.Label}" />
+                        <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding ExplorerIntegration}" HorizontalAlignment="Right"
+                                  AutomationProperties.AutomationId="Settings.Explorer" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Watched folders -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,16" fx:Stagger.Index="4">
+                <StackPanel>
+                    <Grid>
+                        <TextBlock Text="{DynamicResource L.Settings.Section.Watch}" Style="{StaticResource Section.Title}" />
+                        <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Settings.Watch.Add}" theme:Chrome.Icon="{StaticResource Icon.Watch}"
+                                Command="{Binding AddWatchFolderCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                    </Grid>
+                    <TextBlock Text="{DynamicResource L.Settings.Watch.Hint}" Style="{StaticResource Row.Hint}" Margin="0,0,0,10" />
+                    <TextBlock Text="{DynamicResource L.Settings.Watch.Empty}" Foreground="{StaticResource B.TextTertiary}"
+                               Visibility="{Binding WatchRules.Count, Converter={StaticResource Conv.ZeroToVisible}}" />
+                    <ItemsControl ItemsSource="{Binding WatchRules}" Focusable="False">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type settings:WatchRuleRow}">
+                                <Border Background="{StaticResource B.Obsidian900}" CornerRadius="10" Padding="14,10" Margin="0,0,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ui:IconPresenter Icon="{StaticResource Icon.Folder}" Width="18" Height="18" Foreground="{StaticResource B.Accent}" />
+                                        <StackPanel Grid.Column="1" Margin="12,0">
+                                            <TextBlock Text="{Binding Folder}" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding ProfileName}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}" />
+                                        </StackPanel>
+                                        <CheckBox Grid.Column="2" Style="{StaticResource Toggle.Switch}" IsChecked="{Binding Enabled}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <Button Grid.Column="3" Style="{StaticResource Button.Icon}"
+                                                Command="{Binding DataContext.RemoveWatchCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                                            <ui:IconPresenter Icon="{StaticResource Icon.Remove}" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Migration -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,16" fx:Stagger.Index="5">
+                <StackPanel>
+                    <Grid>
+                        <TextBlock Text="{DynamicResource L.Settings.Section.Migration}" Style="{StaticResource Section.Title}" />
+                        <ui:PrismButton Content="{DynamicResource L.Migration.Scan}" Icon="{StaticResource Icon.Import}" Command="{Binding ScanLegacyCommand}"
+                                        IsBusy="{Binding IsScanning}" HorizontalAlignment="Right" VerticalAlignment="Top" AutomationProperties.AutomationId="Settings.ScanLegacy" />
+                    </Grid>
+                    <TextBlock Text="{DynamicResource L.Migration.Intro}" Style="{StaticResource Row.Hint}" Margin="0,0,0,10" MaxWidth="640" HorizontalAlignment="Left" />
+                    <TextBlock Text="{Binding ScanSummary}" TextWrapping="Wrap" Foreground="{StaticResource B.Accent}" Margin="0,0,0,6"
+                               Visibility="{Binding ScanSummary, Converter={StaticResource Conv.NotNullToVisible}}" />
+                    <StackPanel Visibility="{Binding HasScan, Converter={StaticResource Conv.BoolToVisible}}">
+                        <Grid Style="{StaticResource Row}">
+                            <TextBlock Text="{DynamicResource L.Migration.Level}" Style="{StaticResource Row.Label}" />
+                            <ComboBox Style="{StaticResource Row.Combo}" ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" />
+                        </Grid>
+                        <CheckBox Content="{DynamicResource L.Migration.ImportInputs}" IsChecked="{Binding MigrateImportInputs}" Margin="0,6" />
+                        <CheckBox Content="{DynamicResource L.Migration.UseOutputs}" IsChecked="{Binding MigrateUseOutputs}" Margin="0,6" />
+                        <CheckBox Content="{DynamicResource L.Migration.RegisterTools}" IsChecked="{Binding MigrateRegisterTools}" Margin="0,6" />
+                        <CheckBox Content="{DynamicResource L.Migration.CreateWatch}" IsChecked="{Binding MigrateCreateWatch}" Margin="0,6" />
+                        <CheckBox Content="{DynamicResource L.Migration.CleanOrphans}" IsChecked="{Binding MigrateCleanOrphans}" Margin="0,6" />
+                        <Button Style="{StaticResource Button.Primary}" Content="{DynamicResource L.Migration.Apply}" Command="{Binding ApplyMigrationCommand}"
+                                HorizontalAlignment="Left" Margin="0,12,0,0" AutomationProperties.AutomationId="Settings.Migrate" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding MigrationReportText}" TextWrapping="Wrap" Foreground="{StaticResource B.Success}" Margin="0,12,0,0"
+                               Visibility="{Binding MigrationReportText, Converter={StaticResource Conv.NotNullToVisible}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Data -->
+            <Border Style="{StaticResource Border.Section}" Margin="0,0,0,8" fx:Stagger.Index="6">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource L.Settings.Section.Data}" Style="{StaticResource Section.Title}" />
+                    <Grid Style="{StaticResource Row}">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource L.Settings.Data.Folder}" Style="{StaticResource Row.Label}" />
+                            <TextBlock Text="{Binding DataFolder}" Style="{StaticResource Row.Hint}" FontFamily="{StaticResource Font.Mono}" />
+                        </StackPanel>
+                        <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Common.Open}" theme:Chrome.Icon="{StaticResource Icon.FolderOpen}"
+                                Command="{Binding OpenDataFolderCommand}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Settings.Data.ClearHistory}" Command="{Binding ClearHistoryCommand}" Margin="0,0,8,0" />
+                        <Button Style="{StaticResource Button.Danger}" Content="{DynamicResource L.Settings.Reset}" Command="{Binding ResetCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

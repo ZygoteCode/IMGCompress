@@ -1,0 +1,115 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme"
+                    xmlns:c="clr-namespace:Carbonado.UI.Controls"
+                    mc:Ignorable="po">
+    <!--
+        Shared building blocks of every Carbonado style: token-derived fills and strokes, the motion-aware state
+        manager, prismatic focus rings, the popup card and the "geometry renders as an icon" template.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Tokens.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <theme:MotionVisualStateManager x:Key="Motion.StateManager" />
+
+    <!-- ===== Fills (colors from tokens only) ===== -->
+    <LinearGradientBrush x:Key="Fill.Card" StartPoint="0,0" EndPoint="0,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Obsidian800}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Obsidian850}" />
+    </LinearGradientBrush>
+    <!-- Inner bevel: light falling on the top half of a raised surface. -->
+    <LinearGradientBrush x:Key="Fill.Bevel" StartPoint="0,0" EndPoint="0,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.White.A40}" />
+        <GradientStop Offset="0.5" Color="{StaticResource C.Transparent}" />
+    </LinearGradientBrush>
+    <!-- Bright glint used at the leading edge of progress indicators. -->
+    <RadialGradientBrush x:Key="Fill.Spark" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Diamond50}" />
+        <GradientStop Offset="0.35" Color="{StaticResource C.Ice}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Transparent}" />
+    </RadialGradientBrush>
+    <LinearGradientBrush x:Key="Fill.PrismaVertical" StartPoint="0.5,0" EndPoint="0.5,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.Aqua}" />
+        <GradientStop Offset="0.5" Color="{StaticResource C.Iris}" />
+        <GradientStop Offset="1" Color="{StaticResource C.Rose}" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="Fill.DangerHover" Color="{StaticResource C.Ruby}" Opacity="0.3" po:Freeze="True" />
+
+    <!-- ===== Strokes ===== -->
+    <!-- Hairline lit from above: bright top edge fading down the sides. -->
+    <LinearGradientBrush x:Key="Stroke.Hairline" StartPoint="0,0" EndPoint="0,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.White.A20}" />
+        <GradientStop Offset="1" Color="{StaticResource C.White.A08}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Stroke.Glass" StartPoint="0,0" EndPoint="1,1" po:Freeze="True">
+        <GradientStop Offset="0" Color="{StaticResource C.White.A20}" />
+        <GradientStop Offset="0.5" Color="{StaticResource C.White.A08}" />
+        <GradientStop Offset="1" Color="{StaticResource C.White.A04}" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="Stroke.Danger" Color="{StaticResource C.Ruby}" Opacity="0.55" po:Freeze="True" />
+
+    <!-- ===== Depth ===== -->
+    <DropShadowEffect x:Key="Shadow.Menu" BlurRadius="20" ShadowDepth="6" Direction="270" Opacity="0.6"
+                      Color="{StaticResource C.Obsidian950}" po:Freeze="True" />
+
+    <!-- ===== Keyboard focus: prismatic ring with a soft aqua halo, drawn just outside the control ===== -->
+    <Style x:Key="Focus.Prisma">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <theme:FocusRing CornerRadius="10" RingBrush="{StaticResource B.Prisma}" HaloBrush="{StaticResource B.Aqua.A15}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="Focus.Prisma.Small">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <theme:FocusRing CornerRadius="6" RingBrush="{StaticResource B.Prisma}" HaloBrush="{StaticResource B.Aqua.A15}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Radius clamps to half the height: a true pill whatever the width. -->
+    <Style x:Key="Focus.Prisma.Pill">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <theme:FocusRing CornerRadius="999" RingBrush="{StaticResource B.Prisma}" HaloBrush="{StaticResource B.Aqua.A15}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Inside the bounds: rows in lists and menus, where an outer ring would overlap neighbours. -->
+    <Style x:Key="Focus.Prisma.Inset">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <theme:FocusRing CornerRadius="6" Outset="-1" RingBrush="{StaticResource B.Prisma}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ===== Popup card (menus, drop-downs, tooltips) ===== -->
+    <Style x:Key="Border.Popup" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource B.Raised}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Stroke.Hairline}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource Radius.Medium}" />
+        <Setter Property="Padding" Value="{StaticResource Space.XS}" />
+        <Setter Property="Effect" Value="{StaticResource Shadow.Menu}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="theme:Reveal.Mode" Value="Drop" />
+    </Style>
+
+    <!-- Any Geometry used as content renders as an icon (e.g. Button Content="{StaticResource Icon.Add}"). -->
+    <DataTemplate DataType="{x:Type Geometry}">
+        <c:IconPresenter Icon="{Binding}" />
+    </DataTemplate>
+</ResourceDictionary>

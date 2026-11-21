@@ -1,0 +1,98 @@
+<UserControl x:Class="Carbonado.App.Pages.Engines.EnginesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:engines="clr-namespace:Carbonado.App.Pages.Engines"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=engines:EnginesViewModel}"
+             AutomationProperties.AutomationId="Page.Engines">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource Page.Margin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid fx:Stagger.Index="0">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource L.Engines.Title}" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="{DynamicResource L.Engines.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Engines.OpenFolder}" theme:Chrome.Icon="{StaticResource Icon.FolderOpen}"
+                        Command="{Binding OpenFolderCommand}" Margin="0,0,8,0" />
+                <ui:PrismButton Content="{DynamicResource L.Engines.Rescan}" Icon="{StaticResource Icon.Rerun}" Command="{Binding RefreshCommand}"
+                                IsBusy="{Binding IsScanning}" AutomationProperties.AutomationId="Engines.Rescan" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource Border.Section}" Margin="0,20,0,16" Padding="20,14" fx:Stagger.Index="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{DynamicResource L.Engines.Formats}" Style="{StaticResource Text.SectionLabel}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                <ItemsControl ItemsSource="{Binding Formats}" Focusable="False">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type engines:FormatAvailability}">
+                            <Border Style="{StaticResource Border.Grade}" Margin="0,0,8,0" Padding="10,4"
+                                    Opacity="{Binding Available, Converter={StaticResource Conv.AvailabilityOpacity}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="7" Height="7" Fill="{Binding Format, Converter={StaticResource Conv.FormatBrush}}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Label}" Style="{StaticResource Text.Grade}" Margin="7,0,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Style="{StaticResource Border.Card}" Padding="0" fx:Stagger.Index="2">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Rows}" Margin="8,6" Focusable="False" AutomationProperties.AutomationId="Engines.Rows">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type engines:EngineRow}">
+                            <Border BorderBrush="{StaticResource B.BorderSubtle}" BorderThickness="0,0,0,1" Padding="14,11">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="140" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource Text.Mono}" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,16,0">
+                                        <TextBlock Text="{Binding Role}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Location}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding Location}" Margin="0,2,0,0" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding Version}" Style="{StaticResource Text.Mono}" Foreground="{StaticResource B.TextSecondary}"
+                                               VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Ellipse Width="8" Height="8" Fill="{Binding Status, Converter={StaticResource Conv.EngineStatusBrush}}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding StatusText}" Margin="8,0,0,0" Foreground="{Binding Status, Converter={StaticResource Conv.EngineStatusBrush}}"
+                                                   FontWeight="Medium" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

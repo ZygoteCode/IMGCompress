@@ -1,0 +1,116 @@
+<UserControl x:Class="Carbonado.App.Pages.Compare.CompareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:compare="clr-namespace:Carbonado.App.Pages.Compare"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=compare:CompareViewModel}"
+             AutomationProperties.AutomationId="Page.Compare">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource Page.Margin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel fx:Stagger.Index="0">
+            <TextBlock Text="{DynamicResource L.Compare.Title}" Style="{StaticResource Text.PageTitle}" />
+            <TextBlock Text="{DynamicResource L.Compare.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Style="{StaticResource Border.Section}" Margin="0,20,0,16" Padding="18,14" fx:Stagger.Index="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox ItemsSource="{Binding Sources}" SelectedItem="{Binding Selected}" MinWidth="240" VerticalAlignment="Center"
+                          DisplayMemberPath="Title" AutomationProperties.AutomationId="Compare.Source" />
+                <ListBox Grid.Column="1" Style="{StaticResource List.Segmented}" Margin="16,0,0,0" ItemsSource="{Binding Modes}"
+                         SelectedItem="{Binding Mode}" AutomationProperties.AutomationId="Compare.Mode">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource Conv.LocalizedEnum}, ConverterParameter=Compare.Mode}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center">
+                    <Button Style="{StaticResource Button.Icon}" Command="{Binding ZoomToFitCommand, ElementName=Viewer}" ToolTip="{DynamicResource L.Compare.Fit}">
+                        <ui:IconPresenter Icon="{StaticResource Icon.ZoomFit}" />
+                    </Button>
+                    <Button Style="{StaticResource Button.Icon}" Command="{Binding ZoomToActualCommand, ElementName=Viewer}" ToolTip="{DynamicResource L.Compare.Actual}">
+                        <ui:IconPresenter Icon="{StaticResource Icon.ZoomActual}" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Visibility="{Binding HasSelection, Converter={StaticResource Conv.BoolToVisible}}">
+                    <StackPanel Margin="0,0,22,0">
+                        <TextBlock Text="{DynamicResource L.Compare.Original}" Style="{StaticResource Text.SectionLabel}" Margin="0,0,0,2" />
+                        <TextBlock Text="{Binding OriginalSizeText}" FontWeight="Medium" Typography.NumeralAlignment="Tabular" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,22,0">
+                        <TextBlock Text="{DynamicResource L.Compare.Result}" Style="{StaticResource Text.SectionLabel}" Margin="0,0,0,2" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding OutputSizeText}" FontWeight="Medium" Typography.NumeralAlignment="Tabular" />
+                            <TextBlock Text="{Binding SavedText}" Foreground="{StaticResource B.Success}" FontWeight="SemiBold" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,22,0">
+                        <TextBlock Text="{DynamicResource L.Compare.Encoder}" Style="{StaticResource Text.SectionLabel}" Margin="0,0,0,2" />
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource Border.Grade}" Visibility="{Binding FormatText, Converter={StaticResource Conv.GradeVisible}}">
+                                <TextBlock Text="{Binding FormatText}" Style="{StaticResource Text.Grade}" />
+                            </Border>
+                            <TextBlock Text="{Binding EncoderText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextSecondary}"
+                                       Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L.Compare.Score}" Style="{StaticResource Text.SectionLabel}" Margin="0,0,0,2" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ScoreText}" FontWeight="SemiBold" Foreground="{StaticResource B.Accent}" />
+                            <TextBlock Text="{Binding VerificationText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                                       Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Style="{StaticResource Border.Card}" Padding="0" ClipToBounds="True" fx:Stagger.Index="2">
+            <Grid>
+                <ui:BeforeAfterViewer x:Name="Viewer" Before="{Binding Before}" After="{Binding After}" Heatmap="{Binding Heatmap}"
+                                      Mode="{Binding Mode, Converter={StaticResource Conv.CompareMode}}"
+                                      BeforeLabel="{DynamicResource L.Compare.Original}" AfterLabel="{DynamicResource L.Compare.Result}"
+                                      AutomationProperties.AutomationId="Compare.Viewer" />
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"
+                            Visibility="{Binding HasSelection, Converter={StaticResource Conv.BoolToCollapsed}}">
+                    <ui:IconPresenter Icon="{StaticResource Icon.SplitView}" Width="44" Height="44" Foreground="{StaticResource B.TextTertiary}" />
+                    <TextBlock Text="{DynamicResource L.Compare.Empty}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}"
+                               Margin="0,14,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+                <Border Background="{StaticResource B.Overlay}" Visibility="{Binding IsLoading, Converter={StaticResource Conv.BoolToVisible}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="240">
+                        <TextBlock Text="{DynamicResource L.Compare.Loading}" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                        <ProgressBar IsIndeterminate="True" Height="4" />
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{Binding Error}" Foreground="{StaticResource B.Danger}" Margin="18" VerticalAlignment="Bottom" TextWrapping="Wrap"
+                           Visibility="{Binding Error, Converter={StaticResource Conv.NotNullToVisible}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

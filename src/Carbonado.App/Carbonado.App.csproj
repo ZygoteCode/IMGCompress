@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Carbonado.App</RootNamespace>
+    <AssemblyName>Carbonado</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon Condition="Exists('Assets\Carbonado.ico')">Assets\Carbonado.ico</ApplicationIcon>
+    <StartupObject>Carbonado.App.Program</StartupObject>
+    <SelfContained>false</SelfContained>
+    <!-- Startup performance: ReadyToRun is applied on publish (build/publish.ps1); PGO for steady state. -->
+    <TieredPGO>true</TieredPGO>
+    <TieredCompilation>true</TieredCompilation>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <UseSystemResourceKeys>false</UseSystemResourceKeys>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Carbonado.Core\Carbonado.Core.csproj" />
+    <ProjectReference Include="..\Carbonado.UI\Carbonado.UI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\**\*.png" />
+    <Resource Include="Assets\**\*.ico" />
+    <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.md" LogicalName="ThirdPartyNotices.md" Link="ThirdPartyNotices.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Carbonado.App.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="System.IO" />
+  </ItemGroup>
+</Project>

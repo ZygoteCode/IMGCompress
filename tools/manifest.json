@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "packages": [
+    {
+      "name": "libjxl",
+      "version": "0.13.0",
+      "source": "https://github.com/libjxl/libjxl/releases/download/v0.13.0/jxl-x64-windows-static.zip",
+      "archiveSha256": "e394519c05ea9e5b83947f89b40afbf1ea7c631a608406c5de945a4c5bdcdcb7",
+      "archiveRoot": "x64-windows-static/bin/",
+      "license": "BSD-3-Clause",
+      "files": {
+        "libjxl/cjxl.exe": "20b49ec4a017e0ad02f44606aed488dc5f98a996ff3cbbd23ab8032fae748d97",
+        "libjxl/djxl.exe": "81795e834bad0c17db5d707fde1f72520834b36788ea46b54269f3469bc85a5c",
+        "libjxl/jxlinfo.exe": "f9383395034cfa5ef6465cf00aa3f57ee33955d1ae3b7dd40c1c11c223aa4662",
+        "libjxl/ssimulacra2.exe": "6992794debd26006dfd38b5a1d55e8b540da445d56113ad377b6443f7c97db20",
+        "libjxl/butteraugli_main.exe": "29f2f121148ac205097e25756d6181c082662770b610e2779279ce07cf20261c",
+        "libjxl/jxltran.exe": "d6d43352b120956a0e951c0aaac9c27d1e6b9dded97bc26be912eff97aead7e0",
+        "libjxl/decode_and_encode.exe": "741eac4abb6e28fcd722501e353f768ebe7a4bbb88eed199ddfed06182859b61"
+      }
+    },
+    {
+      "name": "libavif",
+      "version": "1.4.2",
+      "source": "https://github.com/AOMediaCodec/libavif/releases/download/v1.4.2/windows-artifacts.zip",
+      "archiveSha256": "cb2d9fea43dcbab1d0707e3b37eb7b08070ad2fb60a2c188c39ec12382c0484a",
+      "archiveRoot": "",
+      "license": "BSD-2-Clause (libavif), BSD-2-Clause (aom), BSD-2-Clause (dav1d)",
+      "files": {
+        "libavif/avifenc.exe": "42312321ed9f715987cb3623292eaedc778970b45efb9b1de62ce795f61991a0",
+        "libavif/avifdec.exe": "a03664ddffb9d847eb484af6ceeffce96e03d641da5c577d26662487dee689f2"
+      }
+    },
+    {
+      "name": "libwebp",
+      "version": "1.6.0",
+      "source": "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0-windows-x64.zip",
+      "archiveSha256": "48886f506b21f62e4661f0f4cbfca19800897c385128e8902542d29a950c93f1",
+      "archiveRoot": "libwebp-1.6.0-windows-x64/bin/",
+      "license": "BSD-3-Clause",
+      "files": {
+        "libwebp/cwebp.exe": "6a2f5cb5dce71366353ab1d9caf9c636e039f25703acfce1c148eed346f2f72a",
+        "libwebp/dwebp.exe": "17c1488bf84b7834e9aa908bb40afd0be2e55d57567d210e96336c56bb6ae993",
+        "libwebp/gif2webp.exe": "cc0044eb724703fc87e8292fca9a4ae6b581e2a07389ee2cf631f312705dfae2",
+        "libwebp/img2webp.exe": "b26bfabad2607fd307283cd7c6cf6115251dc44e9462492f6b401a69c109e252",
+        "libwebp/webpinfo.exe": "4d157aed90e730305500ef5ba67a2484d7001fb901af42137f581a4fb0164ed3",
+        "libwebp/webpmux.exe": "98e33ac84759f31a9f21005889f0e01c3ddd51a57452a24426a2260a91945061"
+      }
+    },
+    {
+      "name": "oxipng",
+      "version": "10.2.1",
+      "source": "https://github.com/oxipng/oxipng/releases/download/v10.2.1/oxipng-10.2.1-x86_64-pc-windows-msvc.zip",
+      "archiveSha256": "7e940f83ee46874b73f53031f96a15834cb70b220af27391fb06fe7b4dd798e1",
+      "archiveRoot": "oxipng-10.2.1-x86_64-pc-windows-msvc/",
+      "license": "MIT",
+      "files": {
+        "oxipng/oxipng.exe": "35ae3980ab831af64f4aecc98f69b81bfa146fa750a61d17ebbb12520128cbc8"
+      }
+    },
+    {
+      "name": "ect",
+      "version": "0.9.5",
+      "source": "https://github.com/fhanau/Efficient-Compression-Tool/releases/download/v0.9.5/ect-0.9.5-win64.zip",
+      "archiveSha256": "9218661a91fd939668e2033f77eddb7db513286e1c91e6fe62013a40c27c21ba",
+      "archiveRoot": "",
+      "license": "Apache-2.0",
+      "files": {
+        "ect/ect.exe": "4ff4d81950f88c2cf734a5a845c00ca3c52950f68b6588a3e803a37b03ac54b2"
+      }
+    },
+    {
+      "name": "pngquant",
+      "version": "2.17.0",
+      "source": "manual (carried over from IMGCompress 6; https://pngquant.org)",
+      "archiveSha256": null,
+      "archiveRoot": null,
+      "license": "GPL-3.0-or-later",
+      "files": {
+        "pngquant/pngquant.exe": "7aadad6a50aa5c40cfcb20f9478c92f6030360a3424bc262ce383dc1e97fb86a"
+      }
+    },
+    {
+      "name": "ffmpeg",
+      "version": "2025-11-06-git-222127418b-full_build-www.gyan.dev",
+      "source": "manual (carried over from IMGCompress 6; https://www.gyan.dev/ffmpeg/builds/)",
+      "archiveSha256": null,
+      "archiveRoot": null,
+      "license": "GPL-3.0-or-later",
+      "files": {
+        "ffmpeg/ffmpeg.exe": "e8586b66a6ddefdbd46eb7fdf2346eac0dc5f68b06e54b5931201a409688e7e3"
+      }
+    }
+  ]
+}

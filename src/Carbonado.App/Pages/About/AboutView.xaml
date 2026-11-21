@@ -1,0 +1,53 @@
+<UserControl x:Class="Carbonado.App.Pages.About.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:brand="clr-namespace:Carbonado.UI.Brand;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:about="clr-namespace:Carbonado.App.Pages.About"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=about:AboutViewModel}"
+             AutomationProperties.AutomationId="Page.About">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="{StaticResource Page.Margin}" MaxWidth="760">
+            <brand:DiamondMark Width="132" Height="132" HorizontalAlignment="Center" Margin="0,18,0,24" fx:Stagger.Index="0" />
+            <Path x:Name="Wordmark" Height="30" Stretch="Uniform" Fill="{StaticResource B.Text}" HorizontalAlignment="Center" fx:Stagger.Index="1" />
+            <TextBlock Text="{DynamicResource L.App.Tagline}" Style="{StaticResource Text.Subtitle}" Foreground="{StaticResource B.TextSecondary}"
+                       HorizontalAlignment="Center" Margin="0,14,0,6" fx:Stagger.Index="2" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" fx:Stagger.Index="2">
+                <Border Style="{StaticResource Border.Grade}">
+                    <TextBlock Text="{Binding Version, StringFormat=v{0}}" Style="{StaticResource Text.Grade}" />
+                </Border>
+                <TextBlock Text="{Binding Runtime}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}" Margin="10,0,0,0" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock Text="{Binding StartupText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.Accent}" HorizontalAlignment="Center"
+                       Margin="0,10,0,0" AutomationProperties.AutomationId="About.Startup" />
+
+            <Border Style="{StaticResource Border.Section}" Margin="0,30,0,16" fx:Stagger.Index="3">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource L.About.Story}" Style="{StaticResource Text.Body}" TextWrapping="Wrap" LineHeight="22" FontSize="15" />
+                    <TextBlock Text="{DynamicResource L.About.Credits}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                               TextWrapping="Wrap" Margin="0,14,0,0" />
+                    <ui:PrismButton Content="{DynamicResource L.About.Repository}" Icon="{StaticResource Icon.Code}" Command="{Binding OpenRepositoryCommand}"
+                                    HorizontalAlignment="Left" Margin="0,18,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Expander Header="{DynamicResource L.About.Licenses}" fx:Stagger.Index="4">
+                <Border Background="{StaticResource B.Obsidian900}" CornerRadius="10" Padding="16" Margin="0,10,0,0">
+                    <TextBlock Text="{Binding Licenses}" Style="{StaticResource Text.Mono}" FontSize="11" TextWrapping="Wrap" Foreground="{StaticResource B.TextSecondary}" />
+                </Border>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

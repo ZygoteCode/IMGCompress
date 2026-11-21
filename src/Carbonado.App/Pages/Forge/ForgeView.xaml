@@ -1,0 +1,282 @@
+<UserControl x:Class="Carbonado.App.Pages.Forge.ForgeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:brand="clr-namespace:Carbonado.UI.Brand;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:forge="clr-namespace:Carbonado.App.Pages.Forge"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=forge:ForgeViewModel}"
+             AutomationProperties.AutomationId="Page.Forge">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- One queue row: thumbnail · name/status · weight · result · quality · gem ring. -->
+            <DataTemplate x:Key="Template.QueueRow" DataType="{x:Type forge:QueueItemViewModel}">
+                <Grid Height="66" Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="58" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="118" />
+                        <ColumnDefinition Width="176" />
+                        <ColumnDefinition Width="104" />
+                        <ColumnDefinition Width="44" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="46" Height="46" CornerRadius="9" Background="{StaticResource B.Obsidian800}"
+                            BorderBrush="{StaticResource B.GlassBorder}" BorderThickness="1" HorizontalAlignment="Left">
+                        <Border CornerRadius="8" Background="{Binding Thumbnail, Converter={StaticResource Conv.ThumbnailBrush}}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="4,0,12,0">
+                        <TextBlock Text="{Binding FileName}" FontWeight="Medium" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path}" />
+                        <TextBlock Text="{Binding StatusText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                                   TextTrimming="CharacterEllipsis" Margin="0,3,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding OriginalText}" Typography.NumeralAlignment="Tabular" />
+                        <TextBlock Text="{Binding DimensionsText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}" Margin="0,3,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding OutputText}" Typography.NumeralAlignment="Tabular" VerticalAlignment="Center" />
+                        <Border Style="{StaticResource Border.Grade}" Margin="8,0,0,0" Visibility="{Binding FormatText, Converter={StaticResource Conv.GradeVisible}}">
+                            <TextBlock Text="{Binding FormatText}" Style="{StaticResource Text.Grade}" />
+                        </Border>
+                        <TextBlock Text="{Binding SavedText}" Foreground="{StaticResource B.Success}" FontWeight="SemiBold" Margin="8,0,0,0"
+                                   VerticalAlignment="Center" Typography.NumeralAlignment="Tabular" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Style="{StaticResource Border.Grade}" Visibility="{Binding Grade, Converter={StaticResource Conv.GradeVisible}}">
+                            <TextBlock Text="{Binding Grade}" Style="{StaticResource Text.Grade}" />
+                        </Border>
+                        <TextBlock Text="{Binding ScoreText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextSecondary}"
+                                   Margin="6,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <ui:GemProgressRing Grid.Column="5" Width="28" Height="28" HorizontalAlignment="Right"
+                                        Value="{Binding Progress}" State="{Binding Status, Converter={StaticResource Conv.GemState}}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource Page.Margin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid fx:Stagger.Index="0">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource L.Forge.Title}" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="{DynamicResource L.Forge.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+            <TextBlock Text="{Binding ActivityText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                       HorizontalAlignment="Right" VerticalAlignment="Bottom" MaxWidth="520" TextTrimming="CharacterEllipsis"
+                       AutomationProperties.AutomationId="Forge.Activity" />
+        </Grid>
+
+        <!-- Recipe toolbar: clarity grades on top, format + effort below -->
+        <Border Grid.Row="1" Style="{StaticResource Border.Section}" Margin="0,20,0,16" Padding="20,16" fx:Stagger.Index="1">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource L.Forge.Profile}" Style="{StaticResource Text.SectionLabel}" />
+                <DockPanel LastChildFill="False">
+                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}" MinWidth="240"
+                              AutomationProperties.AutomationId="Forge.Profile">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Style="{StaticResource Border.Grade}" Margin="0,0,8,0" Visibility="{Binding Grade, Converter={StaticResource Conv.GradeVisible}}">
+                                        <TextBlock Text="{Binding Grade}" Style="{StaticResource Text.Grade}" />
+                                    </Border>
+                                    <TextBlock Text="{Binding Converter={StaticResource Conv.ProfileName}}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ItemsControl ItemsSource="{Binding GradeChoices}" Focusable="False">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type forge:ProfileChoice}">
+                                <ui:Chip Content="{Binding Label}" Badge="{Binding Grade}" GroupName="ForgeGrade" Margin="0,0,8,6"
+                                         IsChecked="{Binding IsActive, Mode=TwoWay}" ToolTip="{Binding Description}"
+                                         AutomationProperties.AutomationId="{Binding Profile.Id, StringFormat=Forge.Grade.{0}}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+                <Rectangle Height="1" Fill="{StaticResource B.BorderSubtle}" Margin="0,10,0,14" />
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L.Forge.Format}" Style="{StaticResource Text.SectionLabel}" />
+                        <ListBox Style="{StaticResource List.Segmented}" ItemsSource="{Binding FormatChoices}" SelectedItem="{Binding SelectedFormat}"
+                                 DisplayMemberPath="Label" AutomationProperties.AutomationId="Forge.Format" />
+                    </StackPanel>
+                    <StackPanel Margin="28,0,0,0">
+                        <TextBlock Text="{DynamicResource L.Forge.Effort}" Style="{StaticResource Text.SectionLabel}" />
+                        <ComboBox ItemsSource="{Binding EffortChoices}" SelectedItem="{Binding SelectedEffort}" DisplayMemberPath="Label" MinWidth="170"
+                                  AutomationProperties.AutomationId="Forge.Effort" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Content: drop zone (empty) or queue + summary -->
+        <Grid Grid.Row="2" fx:Stagger.Index="2">
+            <ui:DropZone x:Name="DropArea" FilesDropped="OnFilesDropped" Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToCollapsed}}"
+                         AutomationProperties.AutomationId="Forge.DropZone">
+                <Grid>
+                    <ui:ParticleField Count="160" Intensity="0.55" IsRunning="True" Opacity="0.6" IsHitTestVisible="False" />
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <brand:DiamondMark Width="76" Height="76" Margin="0,0,0,20" HorizontalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource L.Forge.Drop.Title}" Style="{StaticResource Text.Title}" HorizontalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource L.Forge.Drop.Hint}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}"
+                                   HorizontalAlignment="Center" Margin="0,8,0,24" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <ui:PrismButton Content="{DynamicResource L.Forge.AddFiles}" Icon="{StaticResource Icon.AddFile}" Command="{Binding AddFilesCommand}"
+                                            Margin="0,0,10,0" AutomationProperties.AutomationId="Forge.AddFiles" />
+                            <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Forge.AddFolder}" theme:Chrome.Icon="{StaticResource Icon.AddFolder}"
+                                    Command="{Binding AddFolderCommand}" Margin="0,0,10,0" AutomationProperties.AutomationId="Forge.AddFolder" />
+                            <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Forge.Paste}" theme:Chrome.Icon="{StaticResource Icon.Paste}"
+                                    Command="{Binding PasteCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </ui:DropZone>
+
+            <Grid Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToVisible}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="22" />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Border.Card}" Padding="0">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" Margin="18,14,32,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="58" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="118" />
+                                <ColumnDefinition Width="176" />
+                                <ColumnDefinition Width="104" />
+                                <ColumnDefinition Width="44" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="{DynamicResource L.Forge.Col.File}" Style="{StaticResource Text.SectionLabel}" Margin="4,0,0,0" />
+                            <TextBlock Grid.Column="2" Text="{DynamicResource L.Forge.Col.Size}" Style="{StaticResource Text.SectionLabel}" />
+                            <TextBlock Grid.Column="3" Text="{DynamicResource L.Forge.Col.Result}" Style="{StaticResource Text.SectionLabel}" />
+                            <TextBlock Grid.Column="4" Text="{DynamicResource L.Forge.Col.Quality}" Style="{StaticResource Text.SectionLabel}" />
+                        </Grid>
+                        <Rectangle DockPanel.Dock="Top" Height="1" Fill="{StaticResource B.BorderSubtle}" />
+                        <ListBox x:Name="Queue" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource Template.QueueRow}"
+                                 BorderThickness="0" Background="Transparent" Padding="4,4,4,4"
+                                 HorizontalContentAlignment="Stretch" SelectionMode="Extended"
+                                 VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="OnQueueDoubleClick" KeyDown="OnQueueKeyDown"
+                                 AutomationProperties.AutomationId="Forge.Queue">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                    <Setter Property="Padding" Value="14,0,14,0" />
+                                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu>
+                                                <MenuItem Header="{DynamicResource L.Item.Compare}" Icon="{StaticResource Icon.Compare}"
+                                                          Command="{Binding PlacementTarget.Tag.CompareCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                          CommandParameter="{Binding}" />
+                                                <MenuItem Header="{DynamicResource L.Item.OpenFolder}" Icon="{StaticResource Icon.FolderOpen}"
+                                                          Command="{Binding PlacementTarget.Tag.OpenOutputCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                          CommandParameter="{Binding}" />
+                                                <MenuItem Header="{DynamicResource L.Item.Retry}" Icon="{StaticResource Icon.Rerun}"
+                                                          Command="{Binding PlacementTarget.Tag.RetryCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                          CommandParameter="{Binding}" />
+                                                <Separator />
+                                                <MenuItem Header="{DynamicResource L.Item.Remove}" Icon="{StaticResource Icon.Remove}"
+                                                          Command="{Binding PlacementTarget.Tag.RemoveCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                          CommandParameter="{Binding}" />
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource Border.Section}">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource L.Forge.Summary.Title}" Style="{StaticResource Text.SectionLabel}" />
+                        <ui:RadialGauge Width="196" Height="196" HorizontalAlignment="Center" Margin="0,4,0,18"
+                                        Value="{Binding SavedFraction}" Caption="{DynamicResource L.Gauge.Saved}"
+                                        ValueText="{Binding SavedFraction, Converter={StaticResource Conv.SavedPercent}}"
+                                        AutomationProperties.AutomationId="Forge.Gauge" />
+                        <Grid Margin="0,0,0,10">
+                            <TextBlock Text="{DynamicResource L.Forge.Summary.Original}" Foreground="{StaticResource B.TextSecondary}" VerticalAlignment="Center" />
+                            <ui:CountUpText Value="{Binding TotalOriginalBytes}" Format="Bytes" FontSize="15" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <TextBlock Text="{DynamicResource L.Forge.Summary.Compressed}" Foreground="{StaticResource B.TextSecondary}" VerticalAlignment="Center" />
+                            <ui:CountUpText Value="{Binding TotalOutputBytes}" Format="Bytes" FontSize="15" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Rectangle Height="1" Fill="{StaticResource B.BorderSubtle}" Margin="0,4,0,12" />
+                        <Grid Margin="0,0,0,16">
+                            <TextBlock Text="{DynamicResource L.Forge.Summary.Saved}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <ui:CountUpText Value="{Binding SavedBytes}" Format="Bytes" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource B.Success}"
+                                            HorizontalAlignment="Right" AutomationProperties.AutomationId="Forge.Summary.Saved" />
+                        </Grid>
+                        <TextBlock Text="{Binding ProgressText}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <TextBlock Text="{Binding KeptCount, StringFormat='◆ {0}'}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.Warning}"
+                                       Visibility="{Binding KeptCount, Converter={StaticResource Conv.CountToVisible}}" Margin="0,0,12,0" />
+                            <TextBlock Text="{Binding FailedCount, StringFormat='✕ {0}'}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.Danger}"
+                                       Visibility="{Binding FailedCount, Converter={StaticResource Conv.CountToVisible}}" />
+                        </StackPanel>
+                        <ProgressBar Value="{Binding OverallProgress, Mode=OneWay}" Maximum="1" Height="4" Margin="0,16,0,0"
+                                     Visibility="{Binding IsRunning, Converter={StaticResource Conv.BoolToVisible}}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Actions -->
+        <Grid Grid.Row="3" Margin="0,18,0,0" fx:Stagger.Index="3">
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Forge.AddFiles}" theme:Chrome.Icon="{StaticResource Icon.AddFile}"
+                        Command="{Binding AddFilesCommand}" Margin="0,0,6,0" Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToVisible}}" />
+                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Forge.AddFolder}" theme:Chrome.Icon="{StaticResource Icon.AddFolder}"
+                        Command="{Binding AddFolderCommand}" Margin="0,0,6,0" Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToVisible}}" />
+                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Forge.ClearFinished}" theme:Chrome.Icon="{StaticResource Icon.Check}"
+                        Command="{Binding ClearFinishedCommand}" Margin="0,0,6,0" Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToVisible}}" />
+                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Forge.Clear}" theme:Chrome.Icon="{StaticResource Icon.Remove}"
+                        Command="{Binding ClearCommand}" Visibility="{Binding HasItems, Converter={StaticResource Conv.BoolToVisible}}"
+                        AutomationProperties.AutomationId="Forge.Clear" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
+                    <ui:IconPresenter Icon="{StaticResource Icon.FolderOpen}" Width="16" Height="16" Foreground="{StaticResource B.TextTertiary}" />
+                    <TextBlock Text="{Binding DestinationText}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}"
+                               Margin="8,0,0,0" MaxWidth="340" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Forge.Pause}" theme:Chrome.Icon="{StaticResource Icon.Pause}"
+                        Command="{Binding PauseCommand}" Margin="0,0,8,0" Visibility="{Binding PauseCommand.IsEnabled, RelativeSource={RelativeSource Self}, FallbackValue=Collapsed}"
+                        AutomationProperties.AutomationId="Forge.Pause" />
+                <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Forge.Resume}" theme:Chrome.Icon="{StaticResource Icon.Play}"
+                        Command="{Binding ResumeCommand}" Margin="0,0,8,0" Visibility="{Binding IsPaused, Converter={StaticResource Conv.BoolToVisible}}"
+                        AutomationProperties.AutomationId="Forge.Resume" />
+                <Button Style="{StaticResource Button.Danger}" Content="{DynamicResource L.Forge.Cancel}" theme:Chrome.Icon="{StaticResource Icon.Stop}"
+                        Command="{Binding CancelCommand}" Margin="0,0,10,0" Visibility="{Binding IsRunning, Converter={StaticResource Conv.BoolToVisible}}"
+                        AutomationProperties.AutomationId="Forge.Cancel" />
+                <ui:PrismButton Content="{DynamicResource L.Forge.Compress}" Icon="{StaticResource Icon.Compress}" Command="{Binding StartCommand}"
+                                IsBusy="{Binding IsRunning}" MinWidth="168" AutomationProperties.AutomationId="Forge.Start" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

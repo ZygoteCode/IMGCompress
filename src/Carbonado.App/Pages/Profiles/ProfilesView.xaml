@@ -1,0 +1,213 @@
+<UserControl x:Class="Carbonado.App.Pages.Profiles.ProfilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:profiles="clr-namespace:Carbonado.App.Pages.Profiles"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=profiles:ProfilesViewModel}"
+             AutomationProperties.AutomationId="Page.Profiles">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="Field.Label" TargetType="TextBlock" BasedOn="{StaticResource Text.SectionLabel}">
+                <Setter Property="Margin" Value="0,18,0,8" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource Page.Margin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel fx:Stagger.Index="0">
+            <TextBlock Text="{DynamicResource L.Profiles.Title}" Style="{StaticResource Text.PageTitle}" />
+            <TextBlock Text="{DynamicResource L.Profiles.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360" />
+                <ColumnDefinition Width="22" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource Border.Card}" Padding="8" fx:Stagger.Index="1">
+                <ListBox ItemsSource="{Binding Profiles}" SelectedItem="{Binding Selected}" BorderThickness="0" Background="Transparent"
+                         HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         AutomationProperties.AutomationId="Profiles.List">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="46" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource Border.Grade}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,1,0,0"
+                                        Visibility="{Binding Grade, Converter={StaticResource Conv.GradeVisible}}">
+                                    <TextBlock Text="{Binding Grade}" Style="{StaticResource Text.Grade}" />
+                                </Border>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Converter={StaticResource Conv.ProfileName}}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Converter={StaticResource Conv.ProfileDescription}}" Style="{StaticResource Text.Caption}"
+                                               Foreground="{StaticResource B.TextTertiary}" TextWrapping="Wrap" MaxHeight="34" TextTrimming="CharacterEllipsis"
+                                               Margin="0,3,0,0" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Border.Section}" Padding="0" fx:Stagger.Index="2">
+                <DockPanel>
+                    <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource B.BorderSubtle}" BorderThickness="0,1,0,0" Padding="22,14">
+                        <Grid>
+                            <TextBlock Text="{Binding ValidationError}" Foreground="{StaticResource B.Danger}" VerticalAlignment="Center"
+                                       Visibility="{Binding ValidationError, Converter={StaticResource Conv.NotNullToVisible}}" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Profiles.Duplicate}" theme:Chrome.Icon="{StaticResource Icon.Copy}"
+                                        Command="{Binding DuplicateCommand}" Margin="0,0,8,0" AutomationProperties.AutomationId="Profiles.Duplicate" />
+                                <Button Style="{StaticResource Button.Danger}" Content="{DynamicResource L.Profiles.Delete}" Command="{Binding DeleteCommand}"
+                                        Margin="0,0,8,0" Visibility="{Binding CanDelete, Converter={StaticResource Conv.BoolToVisible}}" />
+                                <Button Style="{StaticResource Button.Secondary}" Content="{DynamicResource L.Profiles.SetActive}" Command="{Binding SetActiveCommand}"
+                                        Margin="0,0,8,0" AutomationProperties.AutomationId="Profiles.SetActive" />
+                                <Button Style="{StaticResource Button.Primary}" Content="{DynamicResource L.Profiles.Save}" Command="{Binding SaveCommand}"
+                                        Visibility="{Binding IsEditable, Converter={StaticResource Conv.BoolToVisible}}" AutomationProperties.AutomationId="Profiles.Save" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="22,20,22,10">
+                        <StackPanel>
+                            <Grid>
+                                <TextBox Text="{Binding EditName, UpdateSourceTrigger=PropertyChanged}" FontSize="20" FontWeight="SemiBold" IsEnabled="{Binding IsEditable}"
+                                         MaxWidth="460" HorizontalAlignment="Left" MinWidth="280" />
+                                <Border Style="{StaticResource Border.Grade}" HorizontalAlignment="Right" Visibility="{Binding IsActive, Converter={StaticResource Conv.BoolToVisible}}">
+                                    <TextBlock Text="{DynamicResource L.Profiles.Active}" Style="{StaticResource Text.Grade}" />
+                                </Border>
+                            </Grid>
+                            <Border Background="{StaticResource B.Aqua.A15}" CornerRadius="8" Padding="12,9" Margin="0,14,0,0"
+                                    Visibility="{Binding IsEditable, Converter={StaticResource Conv.BoolToCollapsed}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:IconPresenter Icon="{StaticResource Icon.Info}" Width="16" Height="16" Foreground="{StaticResource B.Accent}" />
+                                    <TextBlock Text="{DynamicResource L.Profiles.ReadOnly}" Margin="10,0,0,0" TextWrapping="Wrap" Foreground="{StaticResource B.TextSecondary}" />
+                                </StackPanel>
+                            </Border>
+
+                            <StackPanel IsEnabled="{Binding IsEditable}">
+                                <TextBlock Text="{DynamicResource L.Profiles.Mode}" Style="{StaticResource Field.Label}" />
+                                <ListBox Style="{StaticResource List.Segmented}" ItemsSource="{Binding Modes}" SelectedItem="{Binding EditMode}" HorizontalAlignment="Left">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource Conv.LocalizedEnum}, ConverterParameter=Mode}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <StackPanel Visibility="{Binding IsScoreMode, Converter={StaticResource Conv.BoolToVisible}}">
+                                    <TextBlock Text="{DynamicResource L.Profiles.Target}" Style="{StaticResource Field.Label}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Slider Minimum="30" Maximum="99" Value="{Binding EditTargetScore}" SmallChange="0.5" LargeChange="5" VerticalAlignment="Center"
+                                                AutomationProperties.AutomationId="Profiles.Target" />
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="18,0,0,0">
+                                            <TextBlock Text="{Binding EditTargetScore, StringFormat={}{0:0.0}}" FontSize="22" FontWeight="SemiBold"
+                                                       Typography.NumeralAlignment="Tabular" VerticalAlignment="Center" />
+                                            <Border Style="{StaticResource Border.Grade}" Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding Grade}" Style="{StaticResource Text.Grade}" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                    <TextBlock Text="{Binding GradeExplanation}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}"
+                                               TextWrapping="Wrap" Margin="0,10,0,0" />
+                                </StackPanel>
+                                <StackPanel Visibility="{Binding IsSizeMode, Converter={StaticResource Conv.BoolToVisible}}">
+                                    <TextBlock Text="{DynamicResource L.Profiles.TargetSize}" Style="{StaticResource Field.Label}" />
+                                    <TextBox Text="{Binding EditTargetKilobytes, UpdateSourceTrigger=PropertyChanged}" Width="160" HorizontalAlignment="Left" />
+                                </StackPanel>
+
+                                <TextBlock Text="{DynamicResource L.Profiles.Formats}" Style="{StaticResource Field.Label}" />
+                                <ItemsControl ItemsSource="{Binding Formats}" Focusable="False">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type profiles:FormatToggle}">
+                                            <CheckBox Content="{Binding Label}" IsChecked="{Binding IsOn}" Margin="0,0,20,8" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <UniformGrid Columns="3" Margin="0,4,0,0">
+                                    <StackPanel Margin="0,0,14,0">
+                                        <TextBlock Text="{DynamicResource L.Profiles.Strategy}" Style="{StaticResource Field.Label}" />
+                                        <ComboBox ItemsSource="{Binding Strategies}" SelectedItem="{Binding EditStrategy}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource Conv.LocalizedEnum}, ConverterParameter=Strategy}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,14,0">
+                                        <TextBlock Text="{DynamicResource L.Profiles.Effort}" Style="{StaticResource Field.Label}" />
+                                        <ComboBox ItemsSource="{Binding Efforts}" SelectedItem="{Binding EditEffort}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource Conv.LocalizedEnum}, ConverterParameter=Effort}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="{DynamicResource L.Profiles.Metadata}" Style="{StaticResource Field.Label}" />
+                                        <ComboBox ItemsSource="{Binding MetadataPolicies}" SelectedItem="{Binding EditMetadata}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource Conv.LocalizedEnum}, ConverterParameter=Metadata}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </UniformGrid>
+
+                                <Grid Margin="0,22,0,0">
+                                    <TextBlock Text="{DynamicResource L.Profiles.Resize}" VerticalAlignment="Center" />
+                                    <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding EditResize}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Visibility="{Binding EditResize, Converter={StaticResource Conv.BoolToVisible}}">
+                                    <TextBlock Text="{DynamicResource L.Profiles.MaxWidth}" VerticalAlignment="Center" Foreground="{StaticResource B.TextSecondary}" />
+                                    <TextBox Text="{Binding EditMaxWidth, UpdateSourceTrigger=PropertyChanged}" Width="90" Margin="10,0,24,0" />
+                                    <TextBlock Text="{DynamicResource L.Profiles.MaxHeight}" VerticalAlignment="Center" Foreground="{StaticResource B.TextSecondary}" />
+                                    <TextBox Text="{Binding EditMaxHeight, UpdateSourceTrigger=PropertyChanged}" Width="90" Margin="10,0,0,0" />
+                                </StackPanel>
+                                <Grid Margin="0,16,0,0">
+                                    <TextBlock Text="{DynamicResource L.Profiles.NeverLarger}" VerticalAlignment="Center" />
+                                    <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding EditNeverLarger}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <Grid Margin="0,16,0,0">
+                                    <TextBlock Text="{DynamicResource L.Profiles.JpegTranscode}" VerticalAlignment="Center" />
+                                    <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding EditJpegTranscode}" HorizontalAlignment="Right" />
+                                </Grid>
+                                <Grid Margin="0,16,0,8">
+                                    <TextBlock Text="{DynamicResource L.Profiles.CleanInvisible}" VerticalAlignment="Center" />
+                                    <CheckBox Style="{StaticResource Toggle.Switch}" IsChecked="{Binding EditCleanInvisible}" HorizontalAlignment="Right" />
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

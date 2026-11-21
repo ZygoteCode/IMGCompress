@@ -1,0 +1,237 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme">
+    <!--
+        Range controls. Slider: the full Prisma rail is revealed up to the value (the remainder is covered by an
+        obsidian rail), with a diamond-white knob that grows an iris halo on hover/drag. ProgressBar: Prisma fill with a
+        bright spark at its leading edge; indeterminate = a prismatic band gliding across the track.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ===== Slider parts ===== -->
+    <Style x:Key="Slider.Spacer" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{StaticResource B.Transparent}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Slider.Remainder" TargetType="RepeatButton" BasedOn="{StaticResource Slider.Spacer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Grid Background="{StaticResource B.Transparent}">
+                        <!-- Square where it meets the thumb, so no sliver of the Prisma rail peeks through. -->
+                        <Border x:Name="Rail" Height="4" CornerRadius="0,2,2,0" Background="{StaticResource B.Obsidian700}" VerticalAlignment="Center" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=Slider}}" Value="Vertical">
+                            <Setter TargetName="Rail" Property="Height" Value="NaN" />
+                            <Setter TargetName="Rail" Property="Width" Value="4" />
+                            <Setter TargetName="Rail" Property="VerticalAlignment" Value="Stretch" />
+                            <Setter TargetName="Rail" Property="HorizontalAlignment" Value="Center" />
+                            <Setter TargetName="Rail" Property="CornerRadius" Value="2,2,0,0" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Slider.Thumb" TargetType="Thumb">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Grid Width="18" Height="18" Background="{StaticResource B.Transparent}"
+                          VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Halo" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="HaloScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="HaloScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Halo" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="HaloScale" Storyboard.TargetProperty="ScaleX" To="1.25" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="HaloScale" Storyboard.TargetProperty="ScaleY" To="1.25" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobScale" Storyboard.TargetProperty="ScaleX" To="0.9" Duration="0" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobScale" Storyboard.TargetProperty="ScaleY" To="0.9" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Knob" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.TextTertiary}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Ellipse x:Name="Halo" Margin="-7" Opacity="0" Fill="{StaticResource B.Iris.A35}" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse.RenderTransform>
+                                <ScaleTransform x:Name="HaloScale" ScaleX="0.6" ScaleY="0.6" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <Ellipse x:Name="Knob" Fill="{StaticResource B.Diamond50}" Stroke="{StaticResource B.Obsidian950}" StrokeThickness="3"
+                                 RenderTransformOrigin="0.5,0.5">
+                            <Ellipse.RenderTransform>
+                                <ScaleTransform x:Name="KnobScale" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="Template.Slider.Horizontal" TargetType="Slider">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}" MinHeight="24"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverHalo" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <!-- Hover: a faint glass lane lights up around the rail. -->
+            <Border x:Name="HoverHalo" Height="14" CornerRadius="7" Opacity="0" Background="{StaticResource B.White.A04}" VerticalAlignment="Center" />
+            <Border Height="4" Margin="2,0" CornerRadius="2" Background="{StaticResource B.Prisma}" VerticalAlignment="Center" />
+            <Track x:Name="PART_Track">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource Slider.Spacer}" Command="{x:Static Slider.DecreaseLarge}" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource Slider.Remainder}" Command="{x:Static Slider.IncreaseLarge}" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource Slider.Thumb}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Template.Slider.Vertical" TargetType="Slider">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}" MinWidth="24"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverHalo" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="HoverHalo" Width="14" CornerRadius="7" Opacity="0" Background="{StaticResource B.White.A04}" HorizontalAlignment="Center" />
+            <Border Width="4" Margin="0,2" CornerRadius="2" Background="{StaticResource Fill.PrismaVertical}" HorizontalAlignment="Center" />
+            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource Slider.Spacer}" Command="{x:Static Slider.DecreaseLarge}" />
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource Slider.Remainder}" Command="{x:Static Slider.IncreaseLarge}" />
+                </Track.IncreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource Slider.Thumb}" />
+                </Track.Thumb>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="Slider">
+        <Setter Property="Background" Value="{StaticResource B.Transparent}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource Focus.Prisma.Pill}" />
+        <Setter Property="IsMoveToPointEnabled" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template" Value="{StaticResource Template.Slider.Horizontal}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template" Value="{StaticResource Template.Slider.Vertical}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ===== ProgressBar ===== -->
+    <ControlTemplate x:Key="Template.ProgressBar" TargetType="ProgressBar">
+        <Grid x:Name="Root" VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Determinate" />
+                    <VisualState x:Name="Indeterminate">
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Storyboard.TargetName="PART_Indicator" Storyboard.TargetProperty="Opacity" To="0" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Band" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="Band" Storyboard.TargetProperty="(UIElement.OpacityMask).(Brush.RelativeTransform).(TranslateTransform.X)"
+                                             From="-1" To="1" Duration="0:0:1.6" EasingFunction="{StaticResource Ease.Glide}" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="PART_Track" CornerRadius="3" Background="{StaticResource B.White.A08}" />
+            <Border x:Name="PART_Indicator" HorizontalAlignment="Left" CornerRadius="3" Background="{TemplateBinding Foreground}">
+                <Ellipse Width="10" Height="10" Margin="0,-3,-4,-3" HorizontalAlignment="Right" Fill="{StaticResource Fill.Spark}" />
+            </Border>
+            <Border x:Name="Band" Opacity="0" CornerRadius="3" Background="{TemplateBinding Foreground}">
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TranslateTransform X="-1" />
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Offset="0.2" Color="{StaticResource C.Transparent}" />
+                        <GradientStop Offset="0.5" Color="{StaticResource C.Diamond50}" />
+                        <GradientStop Offset="0.8" Color="{StaticResource C.Transparent}" />
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Root" Property="Opacity" Value="0.4" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="ProgressBar">
+        <Setter Property="Foreground" Value="{StaticResource B.Prisma}" />
+        <Setter Property="Height" Value="6" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template" Value="{StaticResource Template.ProgressBar}" />
+    </Style>
+</ResourceDictionary>

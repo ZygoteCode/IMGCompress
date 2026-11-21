@@ -1,0 +1,254 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme"
+                    xmlns:c="clr-namespace:Carbonado.UI.Controls">
+    <!--
+        ComboBox: input-style well with a rotating chevron; the drop-down is a raised popup card that drops in.
+        Items: hover glass, selected iris wash with a prismatic marker that grows in.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ComboBox.Toggle" TargetType="ToggleButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ClickMode" Value="Press" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid Background="{StaticResource B.Transparent}"
+                          VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Turn" Storyboard.TargetProperty="Angle" To="180" Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <c:IconPresenter Icon="{StaticResource Icon.ChevronDown}" Width="16" Height="16" Margin="0,0,12,0"
+                                         HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                         Foreground="{TemplateBinding Foreground}">
+                            <c:IconPresenter.RenderTransform>
+                                <RotateTransform x:Name="Turn" />
+                            </c:IconPresenter.RenderTransform>
+                        </c:IconPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ComboBox.EditableTextBox" TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="CaretBrush" Value="{StaticResource B.Aqua}" />
+        <Setter Property="SelectionBrush" Value="{StaticResource B.Iris}" />
+        <Setter Property="SelectionOpacity" Value="0.45" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <ScrollViewer x:Name="PART_ContentHost" Focusable="False" Background="{x:Null}"
+                                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="Template.ComboBox" TargetType="ComboBox">
+        <Grid x:Name="Root" SnapsToDevicePixels="True"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Quick}" GeneratedEasingFunction="{StaticResource Ease.Glide}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="HoverEdge" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity" To="0.45" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Unfocused" />
+                    <VisualState x:Name="Focused">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="FocusEdge" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="UnderlineScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="FocusedDropDown">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="FocusEdge" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="UnderlineScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Border x:Name="HoverEdge" Opacity="0" Background="{StaticResource B.White.A04}" BorderBrush="{StaticResource B.White.A20}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Border x:Name="FocusEdge" Opacity="0" BorderBrush="{StaticResource B.Iris.A35}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding theme:Chrome.CornerRadius}" />
+            <Rectangle Height="2" VerticalAlignment="Bottom" Margin="10,0" RadiusX="1" RadiusY="1" Fill="{StaticResource B.Prisma}"
+                       RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                <Rectangle.RenderTransform>
+                    <ScaleTransform x:Name="UnderlineScale" ScaleX="0" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <ToggleButton x:Name="Toggle" Style="{StaticResource ComboBox.Toggle}" Foreground="{StaticResource B.TextSecondary}"
+                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+            <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Margin="{TemplateBinding Padding}"
+                              Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                              ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              TextElement.Foreground="{TemplateBinding Foreground}" />
+            <TextBox x:Name="PART_EditableTextBox" Style="{StaticResource ComboBox.EditableTextBox}" Margin="{TemplateBinding Padding}"
+                     VerticalAlignment="Center" Visibility="Collapsed" IsReadOnly="{TemplateBinding IsReadOnly}"
+                     FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" />
+            <Popup x:Name="PART_Popup" Placement="Bottom" HorizontalOffset="-12" VerticalOffset="2" AllowsTransparency="True"
+                   Focusable="False" PopupAnimation="None"
+                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                <!-- The margin leaves room for the shadow; the card itself is at least as wide as the box. -->
+                <Grid Margin="12,0,12,24" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                    <Border Style="{StaticResource Border.Popup}" MinWidth="{Binding ActualWidth, ElementName=Root}">
+                        <ScrollViewer Padding="0">
+                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEditable" Value="True">
+                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="Toggle" Property="HorizontalAlignment" Value="Right" />
+                <Setter TargetName="Toggle" Property="Width" Value="40" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource B.Text}" />
+        <Setter Property="Background" Value="{StaticResource B.Obsidian950}" />
+        <Setter Property="BorderBrush" Value="{StaticResource B.White.A12}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="12,0,40,0" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MaxDropDownHeight" Value="320" />
+        <Setter Property="theme:Chrome.CornerRadius" Value="{StaticResource Radius.Medium}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="Template" Value="{StaticResource Template.ComboBox}" />
+    </Style>
+
+    <ControlTemplate x:Key="Template.ComboBoxItem" TargetType="ListBoxItem">
+        <Grid x:Name="Root" Background="{StaticResource B.Transparent}" SnapsToDevicePixels="True"
+              VisualStateManager.CustomVisualStateManager="{StaticResource Motion.StateManager}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Micro}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.Text}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource B.TextDisabled}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="{StaticResource Duration.Standard}" GeneratedEasingFunction="{StaticResource Ease.Crystallize}" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Unselected" />
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Selected" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="MarkerScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="SelectedUnfocused">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Selected" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="MarkerScale" Storyboard.TargetProperty="ScaleY" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="FocusStates">
+                    <VisualState x:Name="Unfocused" />
+                    <VisualState x:Name="Focused">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Hover" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Hover" Opacity="0" Background="{StaticResource B.White.A08}" CornerRadius="{StaticResource Radius.Small}" />
+            <Border x:Name="Selected" Opacity="0" Background="{StaticResource B.Iris.A15}" CornerRadius="{StaticResource Radius.Small}" />
+            <Rectangle Width="3" Height="14" RadiusX="1.5" RadiusY="1.5" Margin="3,0,0,0" HorizontalAlignment="Left"
+                       Fill="{StaticResource Fill.PrismaVertical}" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <ScaleTransform x:Name="MarkerScale" ScaleY="0" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <ContentPresenter x:Name="Content" Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              TextElement.Foreground="{TemplateBinding Foreground}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Content" Property="TextElement.Foreground" Value="{StaticResource B.Text}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="FontFamily" Value="{StaticResource Font.UI}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Body}" />
+        <Setter Property="Foreground" Value="{StaticResource B.TextSecondary}" />
+        <Setter Property="Padding" Value="14,0,10,0" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template" Value="{StaticResource Template.ComboBoxItem}" />
+    </Style>
+</ResourceDictionary>

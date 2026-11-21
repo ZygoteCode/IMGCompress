@@ -1,0 +1,116 @@
+<UserControl x:Class="Carbonado.App.Pages.Archive.ArchiveView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+             xmlns:theme="clr-namespace:Carbonado.UI.Theme;assembly=Carbonado.UI"
+             xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+             xmlns:archive="clr-namespace:Carbonado.App.Pages.Archive"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=archive:ArchiveViewModel}"
+             AutomationProperties.AutomationId="Page.Archive">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <theme:SharedDictionary Source="/Carbonado;component/Shell/AppStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource Page.Margin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid fx:Stagger.Index="0">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource L.Archive.Title}" Style="{StaticResource Text.PageTitle}" />
+                <TextBlock Text="{DynamicResource L.Archive.Subtitle}" Style="{StaticResource Text.PageSubtitle}" />
+            </StackPanel>
+            <Button Style="{StaticResource Button.Ghost}" Content="{DynamicResource L.Archive.Clear}" theme:Chrome.Icon="{StaticResource Icon.Remove}"
+                    Command="{Binding ClearCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        </Grid>
+
+        <UniformGrid Grid.Row="1" Columns="3" Margin="0,20,0,16" fx:Stagger.Index="1">
+            <ui:StatCard Title="{DynamicResource L.Archive.Files}" Value="{Binding FilesText}" Icon="{StaticResource Icon.Image}" Margin="0,0,10,0" />
+            <ui:StatCard Title="{DynamicResource L.Archive.Saved}" Value="{Binding SavedText}" Icon="{StaticResource Icon.Gauge}" Margin="5,0,5,0" />
+            <ui:StatCard Title="{DynamicResource L.Archive.Ratio}" Value="{Binding RatioText}" Icon="{StaticResource Icon.Chart}" Margin="10,0,0,0" />
+        </UniformGrid>
+
+        <Grid Grid.Row="2" fx:Stagger.Index="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource Border.Section}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{DynamicResource L.Archive.Daily}" Style="{StaticResource Text.SectionLabel}" />
+                    <ui:BarChart Values="{Binding DailySaved}" Labels="{Binding DailyLabels}" />
+                </DockPanel>
+            </Border>
+            <Border Grid.Column="2" Style="{StaticResource Border.Section}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{DynamicResource L.Archive.Formats}" Style="{StaticResource Text.SectionLabel}" />
+                    <ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding FormatShares}" VerticalAlignment="Center" Margin="12,0,0,0" Focusable="False">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type archive:FormatShare}">
+                                <StackPanel Orientation="Horizontal" Margin="0,3">
+                                    <Ellipse Width="8" Height="8" Fill="{Binding Format, Converter={StaticResource Conv.FormatBrush}}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Label}" Margin="8,0,6,0" Style="{StaticResource Text.Caption}" />
+                                    <TextBlock Text="{Binding Count}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ui:DonutChart Slices="{Binding FormatShares, Converter={StaticResource Conv.FormatSlices}}" />
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="3" Style="{StaticResource Border.Card}" Padding="0" Margin="0,16,0,0" fx:Stagger.Index="3">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="{DynamicResource L.Archive.Recent}" Style="{StaticResource Text.SectionLabel}" Margin="20,16,20,4" />
+                <Grid>
+                    <ListBox ItemsSource="{Binding Recent}" BorderThickness="0" Background="Transparent" HorizontalContentAlignment="Stretch"
+                             VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.ScrollUnit="Pixel"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="OnRecentDoubleClick" x:Name="RecentList"
+                             AutomationProperties.AutomationId="Archive.Recent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type archive:HistoryRow}">
+                                <Grid Height="44" Margin="10,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="60" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding When}" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextTertiary}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding FileName}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Folder}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding SizesText}" VerticalAlignment="Center" Typography.NumeralAlignment="Tabular"
+                                               Foreground="{StaticResource B.TextSecondary}" />
+                                    <TextBlock Grid.Column="3" Text="{Binding SavedText}" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{StaticResource B.Success}" />
+                                    <Border Grid.Column="4" Style="{StaticResource Border.Grade}" HorizontalAlignment="Left"
+                                            Visibility="{Binding FormatText, Converter={StaticResource Conv.GradeVisible}}">
+                                        <TextBlock Text="{Binding FormatText}" Style="{StaticResource Text.Grade}" />
+                                    </Border>
+                                    <TextBlock Grid.Column="5" Text="{Binding ScoreText}" VerticalAlignment="Center" Style="{StaticResource Text.Caption}"
+                                               Foreground="{StaticResource B.TextSecondary}" HorizontalAlignment="Right" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsEmpty, Converter={StaticResource Conv.BoolToVisible}}">
+                        <ui:IconPresenter Icon="{StaticResource Icon.Archive}" Width="40" Height="40" Foreground="{StaticResource B.TextTertiary}" />
+                        <TextBlock Text="{DynamicResource L.Archive.Empty}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}" Margin="0,12,0,0" />
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

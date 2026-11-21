@@ -1,0 +1,28 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="clr-namespace:Carbonado.UI.Theme">
+    <!--
+        Carbonado theme entry point: merge /Carbonado.UI;component/Theme/Theme.xaml into Application.Resources.
+        Each file loads once per UI thread (SharedDictionary); values are StaticResource and brushes are frozen.
+        Implicit styles: Button, RepeatButton, ToggleButton, CheckBox, RadioButton, ComboBox(+Item), TextBox,
+        PasswordBox, Slider, ScrollBar, ScrollViewer, ListBox(+Item), ListView(+Item), GridViewColumnHeader, ToolTip,
+        ContextMenu, Menu, MenuItem, ProgressBar, Separator, Expander, GroupBox, Window (derived windows opt in with
+        Style="{StaticResource {x:Type Window}}") and the brand controls.
+    -->
+    <ResourceDictionary.MergedDictionaries>
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Tokens.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Typography.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Icons.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Base.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Buttons.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Selection.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Inputs.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/ComboBox.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Range.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Scrolling.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Lists.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Menus.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Containers.xaml" />
+        <theme:SharedDictionary Source="/Carbonado.UI;component/Theme/Styles/Controls.Brand.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

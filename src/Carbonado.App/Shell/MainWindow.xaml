@@ -1,0 +1,101 @@
+<Window x:Class="Carbonado.App.Shell.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Carbonado.UI.Controls;assembly=Carbonado.UI"
+        xmlns:brand="clr-namespace:Carbonado.UI.Brand;assembly=Carbonado.UI"
+        xmlns:fx="clr-namespace:Carbonado.UI.Transitions;assembly=Carbonado.UI"
+        xmlns:shell="clr-namespace:Carbonado.App.Shell"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=shell:ShellViewModel}"
+        Title="Carbonado"
+        Width="1320" Height="840" MinWidth="1040" MinHeight="680"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource {x:Type Window}}"
+        AllowDrop="True"
+        AutomationProperties.AutomationId="Carbonado.Main">
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ===== Title bar ===== -->
+        <Grid x:Name="TitleBar" Grid.Row="0" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="22,0,0,0">
+                <brand:DiamondMark x:Name="TitleLogo" Width="26" Height="26" />
+                <Path x:Name="Wordmark" Height="11" Margin="12,1,0,0" Stretch="Uniform" Fill="{StaticResource B.Text}" VerticalAlignment="Center"
+                      SnapsToDevicePixels="False" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="18,0,0,0">
+                <Rectangle Width="1" Height="16" Fill="{StaticResource B.Border}" Margin="0,0,16,0" />
+                <TextBlock Text="{Binding Title}" Style="{StaticResource Text.Body}" Foreground="{StaticResource B.TextSecondary}"
+                           FontWeight="Medium" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button Grid.Column="3" Style="{StaticResource Button.Ghost}" Margin="0,0,12,0" Padding="12,6" VerticalAlignment="Center"
+                    Command="{Binding TogglePaletteCommand}" ToolTip="{DynamicResource L.Palette.Open}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.AutomationId="Palette.Open">
+                <StackPanel Orientation="Horizontal">
+                    <ui:IconPresenter Icon="{StaticResource Icon.Search}" Width="16" Height="16" />
+                    <TextBlock Text="{DynamicResource L.Palette.Hint}" Margin="8,0,14,0" Foreground="{StaticResource B.TextTertiary}" VerticalAlignment="Center" />
+                    <Border Background="{StaticResource B.Obsidian800}" BorderBrush="{StaticResource B.BorderSubtle}" BorderThickness="1" CornerRadius="5" Padding="6,1">
+                        <TextBlock Text="Ctrl K" Style="{StaticResource Text.Caption}" Foreground="{StaticResource B.TextSecondary}" />
+                    </Border>
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,8,8,0">
+                <Button x:Name="MinimizeButton" Style="{StaticResource Button.Caption}" Click="OnMinimize" ToolTip="{DynamicResource L.Window.Minimize}"
+                        WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.AutomationId="Window.Minimize">
+                    <ui:IconPresenter Icon="{StaticResource Icon.Minimize}" Width="16" Height="16" />
+                </Button>
+                <Button x:Name="MaximizeButton" Style="{StaticResource Button.Caption}" Click="OnMaximize" ToolTip="{DynamicResource L.Window.Maximize}"
+                        WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.AutomationId="Window.Maximize">
+                    <ui:IconPresenter x:Name="MaximizeIcon" Icon="{StaticResource Icon.Maximize}" Width="16" Height="16" />
+                </Button>
+                <Button x:Name="CloseButton" Style="{StaticResource Button.Caption}" Click="OnCloseClick" ToolTip="{DynamicResource L.Window.Close}"
+                        WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.AutomationId="Window.Close">
+                    <ui:IconPresenter Icon="{StaticResource Icon.Close}" Width="16" Height="16" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- ===== Body: navigation + pages, under the modal host ===== -->
+        <ui:ModalHost x:Name="Modal" Grid.Row="1">
+            <Grid x:Name="Body">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ui:NavRail x:Name="Nav" Margin="10,4,0,14" SelectedIndex="{Binding CurrentIndex, Mode=TwoWay}" AutomationProperties.AutomationId="Nav.Rail">
+                    <ui:NavItem Icon="{StaticResource Icon.Forge}" Label="{DynamicResource L.Nav.Forge}" Shortcut="Ctrl+1" AutomationProperties.AutomationId="Nav.Forge" />
+                    <ui:NavItem Icon="{StaticResource Icon.Compare}" Label="{DynamicResource L.Nav.Compare}" Shortcut="Ctrl+2" AutomationProperties.AutomationId="Nav.Compare" />
+                    <ui:NavItem Icon="{StaticResource Icon.Profiles}" Label="{DynamicResource L.Nav.Profiles}" Shortcut="Ctrl+3" AutomationProperties.AutomationId="Nav.Profiles" />
+                    <ui:NavItem Icon="{StaticResource Icon.Archive}" Label="{DynamicResource L.Nav.Archive}" Shortcut="Ctrl+4" AutomationProperties.AutomationId="Nav.Archive" />
+                    <ui:NavItem Icon="{StaticResource Icon.Engines}" Label="{DynamicResource L.Nav.Engines}" Shortcut="Ctrl+5" AutomationProperties.AutomationId="Nav.Engines" />
+                    <ui:NavItem Icon="{StaticResource Icon.Settings}" Label="{DynamicResource L.Nav.Settings}" Shortcut="Ctrl+6" AutomationProperties.AutomationId="Nav.Settings" />
+                    <ui:NavItem Icon="{StaticResource Icon.About}" Label="{DynamicResource L.Nav.About}" Shortcut="Ctrl+7" AutomationProperties.AutomationId="Nav.About" />
+                </ui:NavRail>
+
+                <fx:TransitionHost x:Name="Pages" Grid.Column="1" Transition="Refraction"
+                                   Focusable="False" />
+
+                <ui:ToastHost x:Name="Toasts" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,26,26" />
+            </Grid>
+        </ui:ModalHost>
+
+        <!-- ===== Command palette ===== -->
+        <Grid x:Name="PaletteLayer" Grid.Row="1" Visibility="{Binding IsPaletteOpen, Converter={StaticResource Conv.BoolToVisible}}">
+            <Border Background="{StaticResource B.Overlay}" MouseLeftButtonDown="OnPaletteScrimClick" />
+        </Grid>
+
+    </Grid>
+</Window>
